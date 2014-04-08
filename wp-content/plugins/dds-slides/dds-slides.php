@@ -46,7 +46,7 @@ function dds_slide_init() {
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
-        'taxonomies'         => array('tag'),
+        'taxonomies'         => array('post_tag'),
         'menu_position'      => 5
     );
 

@@ -46,7 +46,7 @@ function dds_slide_init() {
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
-        'menu_position'      => 1
+        'menu_position'      => 5
     );
 
     register_post_type( 'slide', $args );

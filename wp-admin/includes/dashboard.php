@@ -43,10 +43,10 @@ function wp_dashboard_setup() {
         wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
 
     // Activity Widget
-    if ( is_blog_admin() ) {
+    /**if ( is_blog_admin() ) {
         wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_site_activity' );
     }
-
+    */
     // QuickPress Widget
     /**if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
         $quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Drafts' ) );
@@ -54,7 +54,7 @@ function wp_dashboard_setup() {
     }*/
 
     // WordPress News
-    wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
+    //wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
 
     // Hook to register new widgets
     // Filter widget order

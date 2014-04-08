@@ -54,7 +54,7 @@ function dds_slide_init() {
 }
 
 // Remove all other post types:
-add_action( 'init', 'remove_other_posts' );
+//add_action( 'init', 'remove_other_posts' );
 
 /**function remove_other_posts() {
     unregister_post_type('post');

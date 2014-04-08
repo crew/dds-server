@@ -44,9 +44,27 @@ function dds_slide_init() {
         'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => null,
-        'supports'           => array( 'title', 'editor', 'author', 'thumbnail')
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
+        'show_in_nav_menus'  => true,
+        'menu_position'      => 5
     );
 
     register_post_type( 'slide', $args );
+}
+
+// Remove all other post types:
+add_action( 'init', 'remove_other_posts' );
+
+function remove_other_posts() {
+    unregister_post_type('post');
+}
+
+function unregister_post_type( $post_type ) {
+    global $wp_post_types;
+    if ( isset( $wp_post_types[ $post_type ] ) ) {
+        unset( $wp_post_types[ $post_type ] );
+        return true;
+    }
+    return false;
 }
 

@@ -56,7 +56,6 @@ add_action( 'init', 'remove_other_posts' );
 
 function remove_other_posts() {
     unregister_post_type('post');
-    unregister_post_type('media');
 }
 
 function unregister_post_type( $post_type ) {

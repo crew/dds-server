@@ -51,3 +51,12 @@ function dds_slide_init() {
     register_post_type( 'slide', $args );
 }
 
+// Remove all other post types:
+add_action( 'init', 'remove_other_posts' );
+
+function remove_other_posts() {
+    $post_type = 'post';
+    $supports = 'post-format';
+    remove_post_type_support($post_type, $supports);
+}
+

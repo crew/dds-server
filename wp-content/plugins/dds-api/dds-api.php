@@ -3,7 +3,7 @@
 /*
 Plugin Name: DDS API Plugin
 Plugin URI: http://crew.ccs.neu.edu/
-Description:  Retrieves Post data (JSONs) from WordPress
+Description:  Issues commands to dds-clients upon request (HTTP) and responds with a JSON list for the queue
 Version: 0.1
 Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
@@ -32,8 +32,25 @@ function dds_api_init() {
         'post_status'      => 'publish',
         'suppress_filters' => true
     );
-
+/**
+*note for later: add an abstraction here that links this and the list of slides plugin
+ */
     $myposts = get_posts( $args );
+
+    /**
+    * I'm not sure if I need to use a foreach loop here, or really how we're going to call the actions for each
+     * of the slides without changing it all manually. I don't know enough about WordPress or PHP at the moment
+     * to do this, so I'm leaving in the template Eddie wrote for the time being. I'll go in and replace it all later
+    */
+    $arr = array(
+       'actions' =>
+                    array(
+                    array('url' => <url>, 'duration' => <duration>, ...),
+                    array('url' => <url>, 'duration' => <duration>, ...),
+                    array('url' => <url>, 'duration' => <duration>, ...)
+    );
+
+    wp_send_json($arr);
 
     foreach ( $myposts as $post ) : setup_postdata( $post ); ?>
     <li>

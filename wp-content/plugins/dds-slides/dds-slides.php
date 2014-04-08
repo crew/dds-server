@@ -44,7 +44,8 @@ function dds_slide_init() {
         'has_archive'        => false,
         'hierarchical'       => false,
         'menu_position'      => null,
-        'supports'           => array( 'title', 'editor', 'author', 'thumbnail')
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
+        'show_in_nav_menus'  => true
     );
 
     register_post_type( 'slide', $args );

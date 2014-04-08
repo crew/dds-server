@@ -55,8 +55,15 @@ function dds_slide_init() {
 add_action( 'init', 'remove_other_posts' );
 
 function remove_other_posts() {
-    $post_type = 'post';
-    $supports = 'post-format';
-    remove_post_type_support($post_type, $supports);
+    unregister_post_type('post');
+}
+
+function unregister_post_type( $post_type ) {
+    global $wp_post_types;
+    if ( isset( $wp_post_types[ $post_type ] ) ) {
+        unset( $wp_post_types[ $post_type ] );
+        return true;
+    }
+    return false;
 }
 

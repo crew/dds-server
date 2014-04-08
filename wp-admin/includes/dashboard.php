@@ -185,6 +185,8 @@ function wp_dashboard_right_now() {
 	<ul>
 	<?php
 	// Posts and Pages
+
+   /** Posts removed
 	foreach ( array( 'post', 'page' ) as $post_type ) {
 		$num_posts = wp_count_posts( $post_type );
 		if ( $num_posts && $num_posts->publish ) {
@@ -203,6 +205,7 @@ function wp_dashboard_right_now() {
 
 		}
 	}
+    **/
 	// Comments
 	$num_comm = wp_count_comments();
 	if ( $num_comm && $num_comm->total_comments ) {

@@ -1,17 +1,4 @@
 <?php
-/** TERESA IS TESTING THIS:
-**/
-function add_slidecategory_automatically($post_ID) {
-    global $wpdb;
-    if(!wp_is_post_revision($post_ID)) {
-        $slidecat = array (1);
-        $slidecat[0] = 'dds-slide';
-        wp_set_object_terms( $post_ID, $slidecat, 'category');
-    }
-}
-add_action('publish_slide', 'add_slidecategory_automatically');
-
-
 
 /**
  * Twenty Fourteen functions and definitions

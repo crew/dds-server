@@ -46,6 +46,7 @@ function dds_slide_init() {
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
+        'taxonomies'         => array('tag'),
         'menu_position'      => 5
     );
 
@@ -55,9 +56,9 @@ function dds_slide_init() {
 // Remove all other post types:
 add_action( 'init', 'remove_other_posts' );
 
-function remove_other_posts() {
+/**function remove_other_posts() {
     unregister_post_type('post');
-}
+}**/
 
 function unregister_post_type( $post_type ) {
     global $wp_post_types;
@@ -80,6 +81,18 @@ function add_slidecategory_automatically($post_ID) {
     }
 }
 
-
+// from the interwebs
+add_filter('pre_get_posts', 'query_post_type');
+function query_post_type($query) {
+    if(is_category() || is_tag()) {
+        $post_type = get_query_var('post_type');
+        if($post_type)
+            $post_type = $post_type;
+        else
+            $post_type = array('post','slide'); // replace cpt to your custom post type
+        $query->set('post_type',$post_type);
+        return $query;
+    }
+}
 
 

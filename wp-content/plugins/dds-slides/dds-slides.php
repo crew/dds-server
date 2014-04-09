@@ -47,22 +47,9 @@ function dds_slide_init() {
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
-        'taxonomies'         => array('post_tag', 'pie_displays'),
+        'taxonomies'         => array('category'),
         'menu_position'      => 5
     );
 
-    pie_display_tax_init();
     register_post_type( 'slide', $args );
 }
-
-function pie_display_tax_init() {
-    $labels = array(
-      'name'                =>
-    );
-
-    $args = array(
-        'labels'            => $labels,
-        ...
-    )
-}
-

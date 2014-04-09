@@ -9,16 +9,15 @@ Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
 */
 
-add_action( 'init', 'dds_api_init' );
+add_action( 'wp_ajax_nopriv_aad_api', 'dds_api_init' );
 /**
  * Creates an array of posts and retrieves posts based on the given criteria
  *
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
 function dds_api_init() {
-    $args = array(
-        'posts_per_page'   => 5,
-        'offset'           => 1,
+    $query_args = array(
+        'posts_per_page'   => -1,
         'category'         => '',
         'orderby'          => 'ID',
         'order'            => 'DESC',
@@ -35,7 +34,7 @@ function dds_api_init() {
 /**
 *note for later: add an abstraction here that links this and the list of slides plugin
  */
-    $myposts = get_posts( $args );
+    $myposts = get_posts( $query_args );
 
     /**
     * I'm not sure if I need to use a foreach loop here, or really how we're going to call the actions for each

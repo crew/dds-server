@@ -9,54 +9,35 @@ Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
 */
 
-add_action( 'wp_ajax_nopriv_aad_api', 'dds_api_init' );
+add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call' );
 /**
  * Creates an array of posts and retrieves posts based on the given criteria
  *
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
-function dds_api_init() {
+function dds_api_call() {
     $query_args = array(
         'posts_per_page'   => -1,
         'category'         => '',
         'orderby'          => 'ID',
         'order'            => 'DESC',
-        'include'          => '',
-        'exclude'          => '',
-        'meta_key'         => 'duration',
-        'meta_value'       => 'true',
-        'post_type'        => 'Slide',
-        'post_mime_type'   => '',
-        'post_parent'      => '',
+        // 'meta_key'         => 'duration',
+        // 'meta_value'       => 'true',
+        'post_type'        => 'slide',
         'post_status'      => 'publish',
-        'suppress_filters' => true
+        'suppress_filters' => false
     );
 /**
 *note for later: add an abstraction here that links this and the list of slides plugin
  */
     $myposts = get_posts( $query_args );
 
-    /**
-    * I'm not sure if I need to use a foreach loop here, or really how we're going to call the actions for each
-     * of the slides without changing it all manually. I don't know enough about WordPress or PHP at the moment
-     * to do this, so I'm leaving in the template Eddie wrote for the time being. I'll go in and replace it all later
-    */
-    $arr = array(
-       'actions' =>
-                    array(
-                    array('url' => <url>, 'duration' => <duration>, ...),
-                    array('url' => <url>, 'duration' => <duration>, ...),
-                    array('url' => <url>, 'duration' => <duration>, ...)
-    );
+    $actions = array();
+    foreach ($myposts as $p) {
+        $actions[] = array('url' => get_permalink($p->ID), 'duration' => get_post_meta($p->ID, 'duration', true));
+    }
+
+    $arr = array('actions' => $actions);
 
     wp_send_json($arr);
-
-    foreach ( $myposts as $post ) : setup_postdata( $post ); ?>
-    <li>
-        <a href="<?php the_permalink(); ?>"><?php the_content(); ?></a>
-    </li>
-<?php endforeach;
-wp_reset_postdata();
 }
-?>
-</ul>

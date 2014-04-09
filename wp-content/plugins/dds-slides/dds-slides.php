@@ -10,10 +10,11 @@ Author URI: http://crew.ccs.neu.edu/people
 
 add_action( 'init', 'dds_slide_init' );
 /**
- * Register a book post type.
+ * Register the post type "slide"
  *
  * @link http://codex.wordpress.org/Function_Reference/register_post_type
  */
+
 function dds_slide_init() {
     $labels = array(
         'name'               => _x( 'Slides', 'post type general name', 'dds-slides' ),
@@ -46,53 +47,22 @@ function dds_slide_init() {
         'menu_position'      => null,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
-        'taxonomies'         => array('post_tag'),
+        'taxonomies'         => array('post_tag', 'pie_displays'),
         'menu_position'      => 5
     );
 
+    pie_display_tax_init();
     register_post_type( 'slide', $args );
 }
 
-// Remove all other post types:
-//add_action( 'init', 'remove_other_posts' );
+function pie_display_tax_init() {
+    $labels = array(
+      'name'                =>
+    );
 
-/**function remove_other_posts() {
-    unregister_post_type('post');
-}**/
-
-function unregister_post_type( $post_type ) {
-    global $wp_post_types;
-    if ( isset( $wp_post_types[ $post_type ] ) ) {
-        unset( $wp_post_types[ $post_type ] );
-        return true;
-    }
-    return false;
+    $args = array(
+        'labels'            => $labels,
+        ...
+    )
 }
-
-// Automatically add slides to category dds-slide
-add_action('publish_slide', 'add_slidecategory_automatically');
-
-function add_slidecategory_automatically($post_ID) {
-    global $wpdb;
-    if(!wp_is_post_revision($post_ID)) {
-        $slidecat = array (1);
-        $slidecat[0] = 'dds-slide';
-        wp_set_object_terms( $post_ID, $slidecat, 'category');
-    }
-}
-
-// from the interwebs
-add_filter('pre_get_posts', 'query_post_type');
-function query_post_type($query) {
-    if(is_category() || is_tag()) {
-        $post_type = get_query_var('post_type');
-        if($post_type)
-            $post_type = $post_type;
-        else
-            $post_type = array('post','slide'); // replace cpt to your custom post type
-        $query->set('post_type',$post_type);
-        return $query;
-    }
-}
-
 

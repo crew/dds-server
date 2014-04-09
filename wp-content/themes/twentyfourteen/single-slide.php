@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET['pi'])) { include_once('pie-html.php'); } //show page for PIEs
+if (isset($_GET['pie'])) { include_once('pie-html.php'); } //show page for PIEs
 else { ?>
 
 <?php

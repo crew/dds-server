@@ -1,4 +1,3 @@
-<ul>
 <?php
 /*
 Plugin Name: DDS API Plugin

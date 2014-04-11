@@ -1,4 +1,3 @@
-SINGLE-SLIDE.PHP
 <?php
 if (isset($_GET['pie_name'])) { include_once('pie-html.php'); } //show page for PIEs
 else { ?>
@@ -43,14 +42,5 @@ get_header(); ?>
 get_sidebar( 'content' );
 get_sidebar();
 get_footer();
-
-
-
-
-
-
-
-
-
 
 } //end if

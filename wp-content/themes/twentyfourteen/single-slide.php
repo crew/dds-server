@@ -1,3 +1,4 @@
+SINGLE-SLIDE.PHP
 <?php
 if (isset($_GET['pie'])) { include_once('pie-html.php'); } //show page for PIEs
 else { ?>

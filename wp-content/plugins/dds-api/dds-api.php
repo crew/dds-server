@@ -2,7 +2,7 @@
 /*
 Plugin Name: DDS API Plugin
 Plugin URI: http://crew.ccs.neu.edu/
-Description:  Issues commands to dds-clients upon request (HTTP) and responds with a JSON list for the queue
+Description:  Issues commands to dds-clients upon request (HTTP) and responds with a JSON for the queue.
 Version: 0.1
 Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
@@ -10,8 +10,8 @@ Author URI: http://crew.ccs.neu.edu/people
 
 add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call' );
 /**
- * Creates an array of posts and retrieves posts based on the given criteria
- *
+ * Creates an array of posts and retrieves posts based on the given criteria.
+ * To learn more about the get_posts command, check out this link:
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
 function dds_api_call() {
@@ -27,7 +27,7 @@ function dds_api_call() {
         'suppress_filters' => false
     );
 /**
-*note for later: add an abstraction here that links this and the list of slides plugin
+ * TODO: add an abstraction here that links this and the list of slides plugin
  */
     $myposts = get_posts( $query_args );
 

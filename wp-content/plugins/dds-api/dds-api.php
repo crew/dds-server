@@ -33,7 +33,7 @@ function dds_api_call() {
 
     $actions = array();
     foreach ($myposts as $p) {
-        $actions[] = array('location' => get_permalink($p->ID) . '&pie=true', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
+        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
     }
 
     $arr = array('actions' => $actions);

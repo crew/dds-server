@@ -8,13 +8,14 @@ Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
 */
 
-add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call' );
+add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
 /**
  * Creates an array of posts and retrieves posts based on the given criteria.
  * To learn more about the get_posts command, check out this link:
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
 function dds_api_call() {
+    $pie_name = $_REQUEST['pie'];
     $query_args = array(
         'posts_per_page'   => -1,
         'category'         => '',
@@ -29,6 +30,10 @@ function dds_api_call() {
 /**
  * TODO: add an abstraction here that links this and the list of slides plugin
  */
+    $pie_post = get_post(array(
+        'post_type'        =>  'PIE',
+        'post_title'       =>  $pie_name
+    ));
     $myposts = get_posts( $query_args );
 
     $actions = array();

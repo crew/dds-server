@@ -1,17 +1,6 @@
 <html>
 <head>
     <title>eddiesaidputatitlehere</title>
-    <script>
-        var JSONObject= {
-            "status": "doesn't matter",
-            "actions": [
-                {"location": "http://thingalkd",
-                    "duration": 10 },
-                {"location": "http://whatever",
-                    "duration": 5 }
-            ]
-        }
-    </script>
 </head>
 
 <body>

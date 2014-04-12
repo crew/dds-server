@@ -15,7 +15,10 @@ add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
 function dds_api_call() {
-    $pie_name = $_REQUEST['pie'];
+    if (!isset($_REQUEST['pie_name'])) {
+        wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
+    }
+    $pie_name = $_REQUEST['pie_name'];
     $query_args = array(
         'posts_per_page'   => -1,
         'category'         => '',

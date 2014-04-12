@@ -38,28 +38,13 @@ function dds_api_call() {
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
     ));
+    $catids = wp_get_post_categories($pie_post->ID);
 
-    $categories = get_categories(array(
-        'type'                     => 'post',
-        'child_of'                 => 0,
-        'parent'                   => '',
-        'orderby'                  => 'name',
-        'order'                    => 'ASC',
-        'hide_empty'               => 1,
-        'hierarchical'             => 1,
-        'exclude'                  => '',
-        'include'                  => '',
-        'number'                   => '',
-        'taxonomy'                 => 'category',
-        'pad_counts'               => false
-
-    ));
 
     $posts = array();
 
-    foreach ($categories as $cur_category) {
-        $name = $cur_category->term_id;
-        $cur_posts = get_posts(array(
+    foreach ($catids as $cur_category) {
+        $slides = get_posts(array(
             'posts_per_page'   => -1,
             'category'         => $cur_category,
             'orderby'          => 'ID',
@@ -68,9 +53,9 @@ function dds_api_call() {
             'post_status'      => 'publish',
             'suppress_filters' => false
         ));
-        foreach ($cur_posts as $cur_post) {
-            if (!in_array($cur_post, $posts)) {
-                $posts[] = $cur_post;
+        foreach ($slides as $slide) {
+            if (!in_array($slide, $posts)) {
+                $posts[] = $slide;
             }
         }
     }

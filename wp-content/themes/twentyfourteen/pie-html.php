@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>eddiesaidputatitlehere</title>
+    <title>CCIS Digital Display System</title>
 </head>
 
 <body>

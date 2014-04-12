@@ -22,6 +22,7 @@ get_header(); ?>
 	if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 		// Include the featured content template.
 		get_template_part( 'featured-content' );
+        echo 'HELLO YALL';
 	}
 ?>
 

@@ -34,10 +34,58 @@ function dds_api_call() {
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
     ));
+
+    $categories = get_categories(array(
+        'type'                     => 'post',
+        'child_of'                 => 0,
+        'parent'                   => '',
+        'orderby'                  => 'name',
+        'order'                    => 'ASC',
+        'hide_empty'               => 1,
+        'hierarchical'             => 1,
+        'exclude'                  => '',
+        'include'                  => '',
+        'number'                   => '',
+        'taxonomy'                 => 'category',
+        'pad_counts'               => false
+
+    ));
+
+    $posts = array();
+
+    foreach ($categories as $cur_category) {
+        $name = $cur_category->term_id;
+        $cur_posts = get_posts(array(
+            'posts_per_page'   => -1,
+            'category'         => $cur_category,
+            'orderby'          => 'ID',
+            'order'            => 'DESC',
+            'post_type'        => 'slide',
+            'post_status'      => 'publish',
+            'suppress_filters' => false
+        ));
+        foreach ($cur_posts as $cur_post) {
+            if (!in_array($cur_post, $posts)) {
+                $posts[] = $cur_post;
+            }
+        }
+    }
+
+
+ /**
     $myposts = get_posts( $query_args );
 
     $actions = array();
     foreach ($myposts as $p) {
+        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
+    }
+
+    $arr = array('actions' => $actions);
+
+    wp_send_json($arr);
+ */
+    $actions = array();
+    foreach ($posts as $p) {
         $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
     }
 

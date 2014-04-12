@@ -8,8 +8,6 @@
  */
 ?>
 
-<h1>hihihi</h1>
-
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
 		// Page thumbnail and title.
@@ -21,7 +19,8 @@
 		<?php
 			the_content();
 			wp_link_pages( array(
-				'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentyfourteen' ) . '</span>',
+				'before'      => '<div class="page-links"><span class="page-links-title">' .
+                    __( 'Pages:', 'twentyfourteen' ) . '</span>',
 				'after'       => '</div>',
 				'link_before' => '<span>',
 				'link_after'  => '</span>',

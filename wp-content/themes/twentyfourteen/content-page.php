@@ -8,6 +8,8 @@
  */
 ?>
 
+<h1>hihihi</h1>
+
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
 		// Page thumbnail and title.

@@ -8,6 +8,7 @@ Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
 */
 
+add_action( 'wp_ajax_dds_api', 'dds_api_call');
 add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
 /**
  * Creates an array of posts and retrieves posts based on the given criteria.

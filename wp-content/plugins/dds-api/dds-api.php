@@ -41,11 +41,15 @@ function dds_api_call() {
     );
 
     $pie_posts = get_posts($args);
+<<<<<<< HEAD
     
     if (empty($pie_posts) || count($pie_posts) > 1 ) { 
 	    wp_send_json(array('errors' => array(array('message' => 'invalid pie_name'))));
     }
     
+=======
+    if ($pie_posts == array()) { wp_send_json(array('errors' => array('invalid pie_name:' . $_REQUEST['pie_name'])));}
+>>>>>>> 7e781eb29368fb625774b1097cd4da11d4600687
     $pie_post = $pie_posts[0];
 
     $catids = wp_get_post_categories($pie_post->ID);

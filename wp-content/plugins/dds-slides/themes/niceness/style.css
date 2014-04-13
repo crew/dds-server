@@ -1,3 +1,49 @@
 /*
 Theme Name: Niceness
 */
+
+body {
+    /* Danny says this is a bad idea */
+    text-align: left;
+    font-family: "Helvetica", sans-serif;
+    background-color: #4C79A7;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 0%;
+}
+
+h1 {
+    margin-top: 0px;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 48pt;
+}
+
+img {
+    float: right;
+    /* Code for weird circle
+    width: 300px;
+    height: 300px;
+    border-radius 150px;
+    */
+    margin: 20px;
+    border: 5px solid white;
+    border-radius: 10px;
+}
+
+#content {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #629CD6;
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16pt;
+}
+
+.clr {
+    clear: both;
+}

@@ -38,7 +38,7 @@ function dds_api_call() {
         'post_status'      => 'publish',
         'suppress_filters' => true );
 
-    $pie_post = get_post($args)[0];
+    $pie_post = get_posts($args)[0];
 
     $catids = wp_get_post_categories($pie_post->ID);
 

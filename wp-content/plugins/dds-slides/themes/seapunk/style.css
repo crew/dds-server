@@ -7,8 +7,8 @@ text-align: right;
 font-family: "Tahoma", Geneva, sans-serif;
 background-color: #00CCA3;
 color: #006B6B;
-margin-top: 1px;
-margin-bottom: 1px;
+margin-top: 15px;
+margin-bottom: 15px;
 }
 
 h1 {
@@ -30,7 +30,7 @@ width: 90%;
 margin-left: auto;
 margin-right: auto;
 background-color: #66E0C8;
-padding-left: 20px;
+padding-left: 40px;
 padding-right: 90px;
 padding-top: 100px;
 padding-bottom: 100px;

@@ -39,7 +39,7 @@ function dds_api_call() {
         'suppress_filters' => true );
 
     $pie_posts = get_posts($args);
-    if ($pie_posts == array()) { wp_send_json(array('errors' => array('invalid pie_name:' + $_REQUEST['pie_name'])));}
+    if ($pie_posts == array()) { wp_send_json(array('errors' => array('invalid pie_name:' . $_REQUEST['pie_name'])));}
     $pie_post = $pie_posts[0];
 
     $catids = wp_get_post_categories($pie_post->ID);

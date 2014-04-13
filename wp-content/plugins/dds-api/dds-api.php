@@ -17,12 +17,13 @@ add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
  */
 function dds_api_call() {
     if (!isset($_REQUEST['pie_name'])) {
-        wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
+	    wp_send_json(array('errors' => array( array( 'message' => '\'pie_name\' not set' ))));
     }
+
     $pie_name = $_REQUEST['pie_name'];
 
     $args = array(
-        'name'             => $pie_name,
+        'name'             => $pie_name,  // This is not the post title... this is the post's sanitized title... sooooooo problem
         'posts_per_page'   => 1,
         'offset'           => 0,
         'category'         => '',
@@ -36,10 +37,15 @@ function dds_api_call() {
         'post_mime_type'   => '',
         'post_parent'      => '',
         'post_status'      => 'publish',
-        'suppress_filters' => true );
+	'suppress_filters' => true 
+    );
 
     $pie_posts = get_posts($args);
-    if ($pie_posts == array()) { wp_send_json(array('errors' => array('invalid pie_name')));}
+    
+    if (empty($pie_posts) || count($pie_posts) > 1 ) { 
+	    wp_send_json(array('errors' => array(array('message' => 'invalid pie_name'))));
+    }
+    
     $pie_post = $pie_posts[0];
 
     $catids = wp_get_post_categories($pie_post->ID);

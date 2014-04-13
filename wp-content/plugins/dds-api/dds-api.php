@@ -22,11 +22,13 @@ function dds_api_call() {
     #$pie_name = $_REQUEST['pie_name'];
     $pie_name = 'blueberry';
 
-    $pie_post = get_post(array(
+    $pie_post = get_post(56);
+
+        /**array(
         'id'               =>  56,
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
-    ));
+    )); */
     wp_send_json($pie_post);
 
     $catids = wp_get_post_categories($pie_post->ID);

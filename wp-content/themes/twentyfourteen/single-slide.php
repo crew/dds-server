@@ -12,9 +12,13 @@ else { ?>
  */
 
 get_header(); ?>
-
-        <div id="primary" class="content-area">
-                <div id="content" class="site-content" role="main">
+        <style type="text/css">
+            html, body, #page, #main {
+                height: 100%;
+            }
+        </style>
+        <div id="primary" class="content-area" style="height: 100%;">
+                <div id="content" class="site-content" role="main" style="height: 100%;">
                         <?php
                                 // Start the Loop.
                                 while ( have_posts() ) : the_post();

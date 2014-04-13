@@ -88,7 +88,7 @@ function dds_api_call() {
  */
     $actions = array();
     foreach ($posts as $p) {
-        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
+        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'dds_duration', true));
     }
 
     $arr = array('actions' => $actions);

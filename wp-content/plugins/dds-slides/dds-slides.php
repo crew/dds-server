@@ -108,21 +108,46 @@ function dds_slide_theme_metabox() {
                 <option value="">None</option>
                 <?php
                 $current_theme = get_post_meta($id, 'dds_theme', true);
-                $themes = scandir(__DIR__ . 'themes/');
-                if ($themes) {
-                    foreach ($themes as $theme) {
+                $dds_theme_dir = __DIR__ . '/themes/';
+                $themes = scandir($dds_theme_dir);
+                echo $dds_theme_dir;
+
+                print_r($themes);
+                if ($themes) :
+                    foreach ($themes as $theme) :
                         if (strpos($theme, '.css') == strlen($theme) - 4) {
-                            $theme_info = get_file_data( __DIR__ . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
+                            // Proccessing for a droppin css file
+                        } else if (is_dir($dds_theme_dir . $theme) && !in_array($theme, array('.', '..'))) {
+
+                            $theme = $theme . '/style.css';
+                            if (!is_file($dds_theme_dir . $theme)) {
+                                continue;
+                            }
                         } else {
-                            $theme_info = get_file_data( __DIR__ . 'themes/' . $theme . '/style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
+                            continue;
                         }
+                        $theme_info = get_file_data( $dds_theme_dir . $theme , array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
+                        $theme = plugins_url('themes/' . $theme, __FILE__);
                         ?>
-                        <option value="<?php echo esc_url($theme); ?>" <?php selected($current_theme == $theme); ?>><?php echo $theme_info['Name'] ?></option>
+                        <option value="<?php echo $theme ?>" <?php selected($current_theme == $theme); ?>><?php echo $theme_info['Name'] ?></option>
                         <?php
-                    }
-                }
+                    endforeach;
+                endif;
 
                 ?>
+            </select>
+        </label>
+
+
+
+        <label for="dds_theme"><b>Duration:</b> <i>How long this slide should show on the screen</i>
+            <select id="dds_duration" name="dds_duration">
+
+                <?php
+                $current_duration = get_post_meta($id, 'dds_duration', true);
+                for ($i = 1; $i < 60; $i++) : ?>
+                        <option value="<?php echo $i; ?>" <?php selected($i == $current_duration); ?>><?php echo $i . _n(' Second', ' Seconds', $i); ?> </option>
+                <?php endfor; ?>
             </select>
         </label>
 
@@ -131,12 +156,29 @@ function dds_slide_theme_metabox() {
 <?php
 }
 
-function dds_register_slide_theme_metabox() {
+function dds_register_slide_metabox() {
     add_meta_box('dds-slide-themes', 'Slide Options', 'dds_slide_theme_metabox', 'slide');
 }
 
-add_action('add_meta_boxes', 'dds_register_slide_theme_metabox');
+add_action('add_meta_boxes', 'dds_register_slide_metabox');
+
+function dds_save_slide_options($post_id) {
+    if (get_post_type($post_id) != 'slide') {
+        return;
+    }
+
+    if (wp_is_post_revision($post_id)) {
+        return;
+    }
+
+    if (isset($_POST['dds_theme']) && isset($_POST['dds_duration'])) {
+        update_post_meta($post_id, 'dds_theme', $_POST['dds_theme']);
+        update_post_meta($post_id, 'dds_duration', $_POST['dds_duration']);
+    }
 
 
+}
+
+add_action('save_post', 'dds_save_slide_options');
 
 

@@ -1,6 +1,13 @@
 <html>
 <head>
     <title>CCIS Digital Display System</title>
+
+    <?php
+        $theme = get_post_meta(get_the_ID(), 'dds_theme', true);
+        if ($theme) { ?>
+            <link href="<?php echo esc_url($theme); ?>" rel="stylesheet" media="screen">
+        <?php } ?>
+
 </head>
 
 <body>

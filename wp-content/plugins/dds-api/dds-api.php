@@ -26,6 +26,8 @@ function dds_api_call() {
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
     ));
+    wp_send_json($pie_post);
+
     $catids = wp_get_post_categories($pie_post->ID);
 
 

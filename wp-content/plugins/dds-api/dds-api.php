@@ -23,6 +23,7 @@ function dds_api_call() {
     $pie_name = 'blueberry';
 
     $pie_post = get_post(array(
+        'id'               =>  56,
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
     ));

@@ -8,6 +8,8 @@ Author: TERESATERESAKRAUSE//CREW//KRAUSETERESA
 Author URI: http://crew.ccs.neu.edu/people
 */
 
+define('MAX_SLIDE_DURATION', 60);
+
 add_action( 'init', 'dds_slide_init' );
 add_action('init', 'dds_pie_init');
 /**
@@ -17,6 +19,9 @@ add_action('init', 'dds_pie_init');
  */
 
 function dds_slide_init() {
+
+
+
     $labels = array(
         'name'               => _x( 'Slides', 'post type general name', 'dds-slides' ),
         'singular_name'      => _x( 'Slide', 'post type singular name', 'dds-slides' ),
@@ -85,7 +90,7 @@ function dds_pie_init() {
         'hierarchical'       => false,
         'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
         'show_in_nav_menus'  => true,
-        'taxonomies'         => array('category'),
+        'taxonomies'         => array( 'category' ),
         'menu_position'      => 5
     );
 
@@ -95,10 +100,7 @@ function dds_pie_init() {
 
 
 function dds_slide_theme_metabox() {
-    global $wpdb;
     $id = get_the_ID();
-
-
 
     ?>
     <div class="sudbury-metabox">
@@ -145,9 +147,13 @@ function dds_slide_theme_metabox() {
 
                 <?php
                 $current_duration = get_post_meta($id, 'dds_duration', true);
-                for ($i = 1; $i < 60; $i++) : ?>
-                        <option value="<?php echo $i; ?>" <?php selected($i == $current_duration); ?>><?php echo $i . _n(' Second', ' Seconds', $i); ?> </option>
-                <?php endfor; ?>
+                $n = 0;
+                while ($n < MAX_SLIDE_DURATION) :
+                    $n += ($n < 20 ? 1 : 5);
+                    ?>
+
+                        <option value="<?php echo $n; ?>" <?php selected($n == $current_duration); ?>><?php echo $n . _n(' Second', ' Seconds', $n); ?> </option>
+                <?php endwhile; ?>
             </select>
         </label>
 
@@ -157,6 +163,10 @@ function dds_slide_theme_metabox() {
 }
 
 function dds_register_slide_metabox() {
+    if (get_post_type()) {
+
+    }
+
     add_meta_box('dds-slide-themes', 'Slide Options', 'dds_slide_theme_metabox', 'slide');
 }
 
@@ -177,8 +187,9 @@ function dds_save_slide_options($post_id) {
     }
 
 
+
 }
 
-add_action('save_post', 'dds_save_slide_options');
+
 
 

@@ -19,17 +19,26 @@ function dds_api_call() {
     if (!isset($_REQUEST['pie_name'])) {
         wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
     }
-    #$pie_name = $_REQUEST['pie_name'];
-    $pie_name = 'blueberry';
+    $pie_name = $_REQUEST['pie_name'];
 
-    $pie_post = get_post(56);
+    $args = array(
+        'name'             => $pie_name,
+        'posts_per_page'   => 1,
+        'offset'           => 0,
+        'category'         => '',
+        'orderby'          => 'post_date',
+        'order'            => 'DESC',
+        'include'          => '',
+        'exclude'          => '',
+        'meta_key'         => '',
+        'meta_value'       => '',
+        'post_type'        => 'PIE',
+        'post_mime_type'   => '',
+        'post_parent'      => '',
+        'post_status'      => 'publish',
+        'suppress_filters' => true );
 
-        /**array(
-        'id'               =>  56,
-        'post_type'        =>  'PIE',
-        'post_title'       =>  $pie_name
-    )); */
-    //wp_send_json($pie_post);
+    $pie_post = get_post($args)[0];
 
     $catids = wp_get_post_categories($pie_post->ID);
 

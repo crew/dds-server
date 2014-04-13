@@ -7,9 +7,10 @@ Version: 0.1
 Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
 Author URI: http://crew.ccs.neu.edu/people
 */
-
-error_reporting(0);
-@ini_set('display_errors', 0);
+if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'dds_api') {
+    error_reporting(0);
+    @ini_set('display_errors', 'Off');
+}
 
 add_action( 'wp_ajax_dds_api', 'dds_api_call');
 add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
@@ -19,37 +20,36 @@ add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call');
  * @link https://codex.wordpress.org/Template_Tags/get_posts
  */
 function dds_api_call() {
+
+
     if (!isset($_REQUEST['pie_name'])) {
-	    wp_send_json(array('errors' => array( array( 'message' => '\'pie_name\' not set' ))));
+        wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
     }
-
     $pie_name = $_REQUEST['pie_name'];
-
-    $args = array(
-        'name'             => $pie_name,  // This is not the post title... this is the post's sanitized title... sooooooo problem
-        'posts_per_page'   => 1,
-        'offset'           => 0,
+    $query_args = array(
+        'posts_per_page'   => -1,
         'category'         => '',
-        'orderby'          => 'post_date',
+        'orderby'          => 'ID',
         'order'            => 'DESC',
-        'include'          => '',
-        'exclude'          => '',
-        'meta_key'         => '',
-        'meta_value'       => '',
-        'post_type'        => 'PIE',
-        'post_mime_type'   => '',
-        'post_parent'      => '',
+        // 'meta_key'         => 'duration',
+        // 'meta_value'       => 'true',
+        'post_type'        => 'slide',
         'post_status'      => 'publish',
-	    'suppress_filters' => true
+        'suppress_filters' => false
     );
 
-    $pie_posts = get_posts($args);
-    
-    if (empty($pie_posts) || count($pie_posts) > 1 ) { 
-	    wp_send_json(array('errors' => array(array('message' => "invalid pie_name $pie_name"))));
-    }
-    
-    $pie_post = $pie_posts[0];
+
+    /**
+     * TODO: add an abstraction here that links this and the list of slides plugin
+     */
+
+
+    $pie_post = get_posts(array(
+        'post_type'        =>  'PIE',
+        'post_title'       =>  $pie_name
+    ));
+
+    $pie_post = $pie_post[0];
 
     $catids = wp_get_post_categories($pie_post->ID);
 
@@ -66,7 +66,6 @@ function dds_api_call() {
             'post_status'      => 'publish',
             'suppress_filters' => false
         ));
-
         foreach ($slides as $slide) {
             if (!in_array($slide, $posts)) {
                 $posts[] = $slide;
@@ -74,6 +73,19 @@ function dds_api_call() {
         }
     }
 
+
+ /**
+    $myposts = get_posts( $query_args );
+
+    $actions = array();
+    foreach ($myposts as $p) {
+        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
+    }
+
+    $arr = array('actions' => $actions);
+
+    wp_send_json($arr);
+ */
     $actions = array();
     foreach ($posts as $p) {
         $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
@@ -83,3 +95,4 @@ function dds_api_call() {
 
     wp_send_json($arr);
 }
+

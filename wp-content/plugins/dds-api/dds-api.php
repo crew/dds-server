@@ -19,21 +19,9 @@ function dds_api_call() {
     if (!isset($_REQUEST['pie_name'])) {
         wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
     }
-    $pie_name = $_REQUEST['pie_name'];
-    $query_args = array(
-        'posts_per_page'   => -1,
-        'category'         => '',
-        'orderby'          => 'ID',
-        'order'            => 'DESC',
-        // 'meta_key'         => 'duration',
-        // 'meta_value'       => 'true',
-        'post_type'        => 'slide',
-        'post_status'      => 'publish',
-        'suppress_filters' => false
-    );
-/**
- * TODO: add an abstraction here that links this and the list of slides plugin
- */
+    #$pie_name = $_REQUEST['pie_name'];
+    $pie_name = 'blueberry';
+
     $pie_post = get_post(array(
         'post_type'        =>  'PIE',
         'post_title'       =>  $pie_name
@@ -53,6 +41,7 @@ function dds_api_call() {
             'post_status'      => 'publish',
             'suppress_filters' => false
         ));
+
         foreach ($slides as $slide) {
             if (!in_array($slide, $posts)) {
                 $posts[] = $slide;
@@ -60,19 +49,6 @@ function dds_api_call() {
         }
     }
 
-
- /**
-    $myposts = get_posts( $query_args );
-
-    $actions = array();
-    foreach ($myposts as $p) {
-        $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));
-    }
-
-    $arr = array('actions' => $actions);
-
-    wp_send_json($arr);
- */
     $actions = array();
     foreach ($posts as $p) {
         $actions[] = array('location' => get_permalink($p->ID) . '&pie_name=demo', 'duration' =>(float) get_post_meta($p->ID, 'duration', true));

@@ -1,5 +1,6 @@
 <?php
 if (isset($_GET['pie_name'])) {
+    // get styles.
     include_once('pie-html.php');
 } //show page for PIEs
 else {
@@ -20,9 +21,7 @@ else {
             height: 100%;
         }
 
-
-
-        iframe[seamless]{
+        iframe[seamless] {
             background-color: transparent;
             border: 0px none transparent;
             padding: 0px;
@@ -33,11 +32,16 @@ else {
     <div id="primary" class="content-area" style="height: 100%; padding-top: 0">
         <div id="content" class="site-content" role="main" style="height: 100%;">
             <?php
+
             // Start the Loop.
             while (have_posts()) : the_post();
+
+
+
                 ?>
                 <span style="margin:0px;padding:0px;overflow:hidden;width:100%;height:100%">
-                    <iframe id='pie_display' src='<?php echo esc_url(get_permalink()); ?>&pie_name=demo' frameborder="0"
+                    <iframe id='pie_display' src='<?php echo esc_url(get_slide_location("demo", get_the_ID())); ?>'
+                            frameborder="0"
                             style="overflow:hidden;height:100%;width:150%" height="100%" width="150%" seamless></iframe>
                 </span>
                 <?php

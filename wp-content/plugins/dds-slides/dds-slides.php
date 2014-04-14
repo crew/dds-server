@@ -140,8 +140,7 @@ function dds_slide_theme_metabox() {
                 ?>
             </select>
         </label>
-
-
+        <br>
         <label for="dds_duration"><b>Duration:</b> <i>How long this slide should show on the screen.</i>
             <select id="dds_duration" name="dds_duration">
 
@@ -156,7 +155,7 @@ function dds_slide_theme_metabox() {
                 <?php endwhile; ?>
             </select>
         </label>
-
+        <br>
         <label for="dds_external_url"><b>External URL:</b> <i>Load external web page instead of a post. Remember, this
                 page should be formatted for long distance viewing.</i>
             <?php

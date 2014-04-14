@@ -103,7 +103,7 @@ function dds_slide_theme_metabox() {
     $id = get_the_ID();
 
     ?>
-    <div class="sudbury-metabox">
+    <div class="dds-metabox">
 
         <label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide from scratch</i>
             <select id="dds_theme" name="dds_theme">

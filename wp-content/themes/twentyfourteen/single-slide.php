@@ -19,6 +19,14 @@ else {
         html, body, #page, #main {
             height: 100%;
         }
+
+        iframe[seamless]{
+            background-color: transparent;
+            border: 0px none transparent;
+            padding: 0px;
+            overflow: hidden;
+        }
+
     </style>
     <div id="primary" class="content-area" style="height: 100%;">
         <div id="content" class="site-content" role="main" style="height: 100%;">
@@ -28,7 +36,7 @@ else {
                 ?>
                 <span style="margin:0px;padding:0px;overflow:hidden;width:100%;height:100%">
                     <iframe id='pie_display' src='<?php echo esc_url(get_permalink()); ?>&pie_name=demo' frameborder="0"
-                            style="overflow:hidden;height:100%;width:150%" height="100%" width="150%"></iframe>
+                            style="overflow:hidden;height:100%;width:150%" height="100%" width="150%" seamless></iframe>
                 </span>
                 <?php
                 // If comments are open or we have at least one comment, load up the comment template.

@@ -18,11 +18,15 @@ text-decoration: none;
 font-size: 60pt;
 }
 
+
 img {
 float: left;
 margin: 10px;
 border: 0px solid #1A1A11;
-border-radius: 1000px;
+border-radius: 30px;
+height: 400px;
+width: 400px;
+overflow: hidden;
 }
 
 #content {

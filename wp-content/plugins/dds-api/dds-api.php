@@ -26,30 +26,36 @@ function dds_api_call() {
         wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
     }
     $pie_name = $_REQUEST['pie_name'];
-    $query_args = array(
-        'posts_per_page'   => -1,
+
+
+
+ $args = array(
+        'name'             => $pie_name,  // This is not the post title... this is the post's sanitized title... sooooooo problem
+        'posts_per_page'   => 1,
+        'offset'           => 0,
         'category'         => '',
-        'orderby'          => 'ID',
+        'orderby'          => 'post_date',
         'order'            => 'DESC',
-        // 'meta_key'         => 'duration',
-        // 'meta_value'       => 'true',
-        'post_type'        => 'slide',
+        'include'          => '',
+        'exclude'          => '',
+        'meta_key'         => '',
+        'meta_value'       => '',
+        'post_type'        => 'PIE',
+        'post_mime_type'   => '',
+        'post_parent'      => '',
         'post_status'      => 'publish',
-        'suppress_filters' => false
+	    'suppress_filters' => true
     );
 
+    $pie_posts = get_posts($args);
+    
+    if (empty($pie_posts) || count($pie_posts) > 1 ) { 
+	    wp_send_json(array('errors' => array(array('message' => "invalid pie_name $pie_name"))));
+    }
+    
+    $pie_post = $pie_posts[0];
 
-    /**
-     * TODO: add an abstraction here that links this and the list of slides plugin
-     */
 
-
-    $pie_post = get_posts(array(
-        'post_type'        =>  'PIE',
-        'post_title'       =>  $pie_name
-    ));
-
-    $pie_post = $pie_post[0];
 
     $catids = wp_get_post_categories($pie_post->ID);
 

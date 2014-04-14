@@ -20,6 +20,8 @@ else {
             height: 100%;
         }
 
+
+
         iframe[seamless]{
             background-color: transparent;
             border: 0px none transparent;
@@ -28,7 +30,7 @@ else {
         }
 
     </style>
-    <div id="primary" class="content-area" style="height: 100%;">
+    <div id="primary" class="content-area" style="height: 100%; padding-top: 0">
         <div id="content" class="site-content" role="main" style="height: 100%;">
             <?php
             // Start the Loop.

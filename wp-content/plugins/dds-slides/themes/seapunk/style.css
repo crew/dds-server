@@ -7,8 +7,8 @@ text-align: right;
 font-family: "Tahoma", Geneva, sans-serif;
 background-color: #00CCA3;
 color: #006B6B;
-margin-top: 15px;
-margin-bottom: 15px;
+margin-top: 10%;
+margin-bottom: 10%;
 }
 
 h1 {
@@ -18,11 +18,15 @@ text-decoration: none;
 font-size: 60pt;
 }
 
+
 img {
 float: left;
-margin: 10px;
+margin: 20px;
 border: 0px solid #1A1A11;
-border-radius: 1000px;
+border-radius: 30px;
+height: 400px;
+width: 400px;
+overflow: hidden;
 }
 
 #content {

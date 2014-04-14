@@ -163,10 +163,6 @@ function dds_slide_theme_metabox() {
 }
 
 function dds_register_slide_metabox() {
-    if (get_post_type()) {
-
-    }
-
     add_meta_box('dds-slide-themes', 'Slide Options', 'dds_slide_theme_metabox', 'slide');
 }
 
@@ -190,6 +186,4 @@ function dds_save_slide_options($post_id) {
 
 }
 
-
-
-
+add_action('save_post', 'dds_save_slide_options');

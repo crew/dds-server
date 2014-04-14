@@ -23,7 +23,7 @@ function dds_api_call() {
 
 
     if (!isset($_REQUEST['pie_name'])) {
-        wp_send_json(array('errors' => array('message' => '\'pie_name\' not set')));
+        wp_send_json(array('errors' => array( array( 'message' => '\'pie_name\' not set' ))));
     }
     $pie_name = $_REQUEST['pie_name'];
 

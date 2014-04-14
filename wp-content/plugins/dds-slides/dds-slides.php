@@ -105,7 +105,8 @@ function dds_slide_theme_metabox() {
     ?>
     <div class="dds-metabox">
 
-        <label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide from scratch</i>
+        <label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide
+                from scratch.</i>
             <select id="dds_theme" name="dds_theme">
                 <option value="">None</option>
                 <?php
@@ -141,8 +142,7 @@ function dds_slide_theme_metabox() {
         </label>
 
 
-
-        <label for="dds_theme"><b>Duration:</b> <i>How long this slide should show on the screen</i>
+        <label for="dds_duration"><b>Duration:</b> <i>How long this slide should show on the screen.</i>
             <select id="dds_duration" name="dds_duration">
 
                 <?php
@@ -155,6 +155,15 @@ function dds_slide_theme_metabox() {
                         <option value="<?php echo $n; ?>" <?php selected($n == $current_duration); ?>><?php echo $n . _n(' Second', ' Seconds', $n); ?> </option>
                 <?php endwhile; ?>
             </select>
+        </label>
+
+        <label for="dds_external_url"><b>External URL:</b> <i>Load external web page instead of a post. Remember, this
+                page should be formatted for long distance viewing.</i>
+            <?php
+            $current_external_url = get_post_meta($id, 'dds_external_url', true);
+            ?>
+            <input type="text" name="dds_external_url" placeholder="http://www.google.com"
+                   value="<?php echo $current_external_url; ?>">
         </label>
 
 
@@ -180,6 +189,10 @@ function dds_save_slide_options($post_id) {
     if (isset($_POST['dds_theme']) && isset($_POST['dds_duration'])) {
         update_post_meta($post_id, 'dds_theme', $_POST['dds_theme']);
         update_post_meta($post_id, 'dds_duration', $_POST['dds_duration']);
+    }
+
+    if (isset($_POST['dds_external_url'])) {
+        update_post_meta($post_id, 'dds_external_url', esc_url_raw($_POST['dds_external_url']));
     }
 
 

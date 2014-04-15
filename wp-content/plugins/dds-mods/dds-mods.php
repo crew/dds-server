@@ -41,7 +41,6 @@ function dds_mods_init() {
 
 }
 
-
 add_action('admin_menu', 'dds_mods_remove_menus');
 
 function dds_mods_remove_menus() {
@@ -60,4 +59,13 @@ function dds_mods_remove_menus() {
         remove_menu_page('tools.php');
 
     }
+}
+
+// only enabled when viewed from pie
+function dds_mods_remove_twentyfourteen_css()
+{
+    wp_dequeue_style('twentyfourteen-lato');
+    wp_dequeue_style('genericons');
+    wp_dequeue_style('twentyfourteen-style');
+    wp_dequeue_style('twentyfourteen-ie');
 }

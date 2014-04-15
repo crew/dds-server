@@ -272,7 +272,7 @@ class MBTAShortcoder
         if (!isset($this->current_status[$line])) {
             // gets the transient or sets it
             if (false === ($this->current_status[$line] = get_transient('dds_mbta_current_status_' . $line))) {
-                $raw_contents = $this->get_data(DDS_MBTA_STATUS_BASE_LINE_URL . $this->get_short_name($line) . '.json');
+                $raw_contents = $this->get_data(DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
                 if ($raw_contents != false) {
                     $this->current_status[$line] = json_decode($raw_contents);
                 } else {

@@ -8,8 +8,8 @@
 
 define('DDS_MBTA_STATUS_ORANGE_LINE_URL', 'http://developer.mbta.com/lib/rthr/orange.json');
 define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated status
-define('DDS_MBTA_TIME_ZONE', new DateTimeZone('America/New_York')); // maybe a little funny
 define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 3);
+define('DDS_MBTA_TIME_ZONE', 'America/New_York');
 
 
 class MBTAShortcoder
@@ -85,7 +85,15 @@ class MBTAShortcoder
         foreach ($this->current_status_orange->TripList->Trips as $trip) {
             $destination = $trip->Destination;
             $predictions = $trip->Predictions;
+
+            // if stop_predictions does not have an entry for this destination, initialize it.
+            if (!isset($stop_predictions[$destination])) {
+                $stop_predictions[$destination] = array();
+            }
+
+
             foreach ($predictions as $prediction) {
+
                 if ($prediction->Stop == $stop_name) {
                     // add prediction seconds to array under the right destination
                     array_push($stop_predictions[$destination], $prediction->Seconds);
@@ -96,7 +104,7 @@ class MBTAShortcoder
         // update each prediction based on the difference between $mbta_time and the server's time
         // get time difference
         $now = new DateTime;
-        $now->setTimezone(DDS_MBTA_TIME_ZONE);
+        $now->setTimezone(new DateTimeZone(DDS_MBTA_TIME_ZONE));
         $server_time = $now->getTimestamp();
         $time_difference = $server_time - $mbta_time;
 

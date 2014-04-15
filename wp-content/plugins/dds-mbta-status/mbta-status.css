@@ -1,5 +1,20 @@
+.mbta-light {
+    font-family: Nunito;
+    font-weight: 300;
+}
+
+.mbta-medium {
+    font-family: Nunito;
+    font-weight: 400;
+}
+
+.mbta-heavy {
+    font-family: Nunito;
+    font-weight: 700;
+}
+
 .mbta-container {
-    font-size: 2em;
+
 }
 
 .mbta-stop-name-container {

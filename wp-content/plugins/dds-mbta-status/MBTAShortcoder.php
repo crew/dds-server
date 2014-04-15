@@ -11,6 +11,7 @@ define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated statu
 define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 4);
 define('DDS_MBTA_TIME_ZONE', 'America/New_York');
 define('DDS_MBTA_STYLE_NAME', 'mbtastatus');
+define('DDS_MBTA_GOOGLE_FONTS_NAME', 'mbtastatusgooglefonts');
 
 
 class MBTAShortcoder
@@ -22,6 +23,7 @@ class MBTAShortcoder
         add_shortcode('mbtastatus', array(&$this, 'mbta_status_short_code'));
 
         wp_register_style(DDS_MBTA_STYLE_NAME, plugins_url('mbta-status.css', __FILE__));
+        wp_register_style(DDS_MBTA_GOOGLE_FONTS_NAME, '//fonts.googleapis.com/css?family=Nunito:300,400,700');
     }
 
     function activate()
@@ -42,28 +44,31 @@ class MBTAShortcoder
             'stop' => 'Ruggles'
         ), $atts));
 
+        // load stylesheets
         wp_enqueue_style(DDS_MBTA_STYLE_NAME);
+        wp_enqueue_style(DDS_MBTA_GOOGLE_FONTS_NAME);
 
         $status = $this->get_status_orange($stop);
 
         ob_start();
         ?>
         <div class="mbta-container">
-            <div class="mbta-stop-name-container"><h1 class="mbta-stop-name"><?php echo $stop; ?></h1></div>
-            <div class="mbta-status-banner-container"><h1 class="mbta-status-banner">MBTA Status</h1></div>
+            <div class="mbta-stop-name-container"><h1 class="mbta-stop-name mbta-heavy"><?php echo $stop; ?></h1></div>
+            <div class="mbta-status-banner-container"><h1 class="mbta-status-banner mbta-light">MBTA Status</h1></div>
 
             <?php
             foreach ($status as $destination => $predictions) {
                 ?>
-                <div class="mbta-destination-container"><h2 class="mbta-destination">To <?php echo $destination; ?></h2>
+                <div class="mbta-destination-container"><h2 class="mbta-destination mbta-medium">
+                        To <?php echo $destination; ?></h2>
 
                     <div class="mbta-trains-container">
-                        <h3 class="mbta-trains-in">Trains arrive in:</h3>
+                        <h3 class="mbta-trains-in mbta-light">Trains arrive in:</h3>
                         <?php
 
                         for ($i = 0; $i < min(count($predictions), DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY); $i++) {
                             $eta_minutes = number_format(($predictions[$i] / 60), 0, '.', ','); // In case of readability during/after armageddon.
-                            ?><h3 class="mbta-minutes"><?php echo $eta_minutes; ?> minutes</h3><?php
+                            ?><h3 class="mbta-minutes mbta-medium"><?php echo $eta_minutes; ?> minutes</h3><?php
                         }
 
                         ?>

@@ -6,18 +6,45 @@
  * Time: 8:02 PM
  */
 
-define('DDS_MBTA_STATUS_BASE_LINE_URL', 'http://developer.mbta.com/lib/rthr/'); //only supported are blue, red, and orange
-define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated status
+/**
+ * Defines base url to add line name onto. Only supported lines are blue, red, and orange.
+ */
+define('DDS_MBTA_STATUS_BASE_LINE_URL', 'http://developer.mbta.com/lib/rthr/');
+/**
+ * Seconds to wait for updated status
+ */
+define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5);
+/**
+ * Maximum number of train's prediction times to display
+ */
 define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 4);
+/**
+ * Time zone of MBTA
+ */
 define('DDS_MBTA_TIME_ZONE', 'America/New_York');
+/**
+ * Name of the css style registered with WordPress
+ */
 define('DDS_MBTA_STYLE_NAME', 'mbtastatus');
+/**
+ * Name of the css style registered with WordPress for google fonts
+ */
 define('DDS_MBTA_GOOGLE_FONTS_NAME', 'mbtastatusgooglefonts');
 
 
+/**
+ * Class MBTAShortcoder
+ */
 class MBTAShortcoder
 {
+    /**
+     * @var array
+     */
     var $current_status = array();
 
+    /**
+     *
+     */
     function __construct()
     {
         add_shortcode('mbtastatus', array(&$this, 'mbta_status_short_code'));
@@ -30,16 +57,26 @@ class MBTAShortcoder
         wp_enqueue_style(DDS_MBTA_GOOGLE_FONTS_NAME);
     }
 
+    /**
+     * Activate plugin, and add associated options
+     */
     function activate()
     {
 
     }
 
+    /**
+     * Deactivate plugin, and remove associated options
+     */
     function deactivate()
     {
 
     }
 
+    /** Shortcode for getting subway status for red, orange, and blue lines
+     * @param $atts array line: short name (red, orange, blue), stop: full name according to MBTA (might require looking up, e.g. 'Ruggles' or 'Park Street')
+     * @return string the shortcode's html
+     */
     function mbta_status_short_code($atts)
     {
         // get attributes out of short code
@@ -100,6 +137,10 @@ class MBTAShortcoder
         return ob_get_clean();
     }
 
+    /** Get the subway's official color according to Wikipedia by the line's short name
+     * @param $line string the short name of the line (e.g. orange)
+     * @return string the HTML color code prefaced by a #
+     */
     function get_color($line)
     {
         switch ($line) {
@@ -116,6 +157,10 @@ class MBTAShortcoder
         }
     }
 
+    /** Get the short name of a line based on it's long name
+     * @param $line string the long name of a line (e.g. 'Orange Line')
+     * @return string the short name of the line (e.g. 'orange')
+     */
     function get_short_name($line)
     {
         switch ($line) {
@@ -132,6 +177,10 @@ class MBTAShortcoder
         }
     }
 
+    /** Get the long name of a line based on it's short name
+     * @param $line string the short name of the line (e.g. 'orange')
+     * @return string the long name of a line (e.g. 'Orange Line')
+     */
     function get_long_name($line)
     {
         switch ($line) {
@@ -148,7 +197,11 @@ class MBTAShortcoder
         }
     }
 
-    // short name
+    /** Get the status of a line. CURLs MBTA's API if necessary, otherwise uses a timestamp to count down.
+     * @param $line_name string the short name of a line
+     * @param $stop_name string the exact MBTA stop name (e.g. 'Ruggles' or 'Park Street')
+     * @return array|bool json parsed status as an object or false if it couldn't get info
+     */
     function get_status($line_name, $stop_name)
     {
         // Each different destination in the JSON file has an index.
@@ -211,7 +264,9 @@ class MBTAShortcoder
         return $updated_predictions;
     }
 
-    // short name
+    /** Update the line if necessary, and set the $current_status variable to either a transient with recent info or currently CURLed info.
+     * @param $line string the short name of the line
+     */
     private function update_line($line)
     {
         if (!isset($this->current_status[$line])) {
@@ -235,10 +290,11 @@ class MBTAShortcoder
         }
     }
 
-
-    /* gets the data from a URL
-    generic code from: http://davidwalsh.name/curl-download
-    */
+    /** gets the data from a URL through CURL
+     * from: http://davidwalsh.name/curl-download
+     * @param $url string the url to CURL
+     * @return mixed|false returns false if failed, or data if true
+     */
     private function get_data($url)
     {
         $ch = curl_init();

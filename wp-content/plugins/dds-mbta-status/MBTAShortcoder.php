@@ -8,7 +8,7 @@
 
 define('DDS_MBTA_STATUS_ORANGE_LINE_URL', 'http://developer.mbta.com/lib/rthr/orange.json');
 define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated status
-define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 3);
+define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 4);
 define('DDS_MBTA_TIME_ZONE', 'America/New_York');
 define('DDS_MBTA_STYLE_NAME', 'mbtastatus');
 
@@ -49,26 +49,29 @@ class MBTAShortcoder
         ob_start();
         ?>
         <div class="mbta-container">
-        <h1 class="mbta-stop-name"><?php echo $stop; ?></h1>
-        <?php
-        foreach ($status as $destination => $predictions) {
+            <div class="mbta-stop-name-container"><h1 class="mbta-stop-name"><?php echo $stop; ?></h1></div>
+            <div class="mbta-status-banner-container"><h1 class="mbta-status-banner">MBTA Status</h1></div>
+
+            <?php
+            foreach ($status as $destination => $predictions) {
+                ?>
+                <div class="mbta-destination-container"><h2 class="mbta-destination">To <?php echo $destination; ?></h2>
+
+                    <div class="mbta-trains-container">
+                        <h3 class="mbta-trains-in">Trains arrive in:</h3>
+                        <?php
+
+                        for ($i = 0; $i < min(count($predictions), DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY); $i++) {
+                            $eta_minutes = number_format(($predictions[$i] / 60), 0, '.', ','); // In case of readability during/after armageddon.
+                            ?><h3 class="mbta-minutes"><?php echo $eta_minutes; ?> minutes</h3><?php
+                        }
+
+                        ?>
+                    </div>
+                </div>
+            <?php
+            }
             ?>
-            <div class="mbta-destination-container"><h2 class="mbta-destination"><?php echo $destination; ?></h2>
-
-                <div class="mbta-trains-in-container"><h3 class="mbta-trains-in">Trains in:</h3>
-                    <?php
-
-                    for ($i = 0; $i < min(count($predictions), DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY); $i++) {
-                        $eta_minutes = number_format(($predictions[$i] / 60), 0, '.', ','); // please never have to format the ETA minutes with a comma. In case of readability during armageddon.
-                        echo "<br>$eta_minutes";
-                    }
-
-                    ?>
-                    <h3 class="mbta-minutes">minutes</h3></div>
-            </div>
-        <?php
-        }
-        ?>
         </div>
         <?php
 

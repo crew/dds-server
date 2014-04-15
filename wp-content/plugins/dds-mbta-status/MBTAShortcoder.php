@@ -270,23 +270,24 @@ class MBTAShortcoder
     private function update_line($line)
     {
         if (!isset($this->current_status[$line])) {
-            // gets the transient or sets it
-            if (false === ($this->current_status[$line] = get_transient('dds_mbta_current_status_' . $line))) {
-                $raw_contents = $this->get_data(DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
-                if ($raw_contents != false) {
-                    $this->current_status[$line] = json_decode($raw_contents);
-                } else {
-                    $this->current_status[$line] = false; // curl failed
-                    error_log("DDS MBTA : Failed to get MBTA information from url" . DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
-                }
-
-                // set transient
-                set_transient(
-                    'dds_mbta_current_status_' . $line,
-                    $this->current_status[$line],
-                    20 //seconds (MBTA doesn't want polls in frequencies greater than once every 10 seconds)
-                );
+            $this->current_status[$line] = false;
+        }
+        // gets the transient or sets it
+        if (false === ($this->current_status[$line] = get_transient('dds_mbta_current_status_' . $line))) {
+            $raw_contents = $this->get_data(DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
+            if ($raw_contents != false) {
+                $this->current_status[$line] = json_decode($raw_contents);
+            } else {
+                $this->current_status[$line] = false; // curl failed
+                error_log("DDS MBTA : Failed to get MBTA information from url" . DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
             }
+
+            // set transient
+            set_transient(
+                'dds_mbta_current_status_' . $line,
+                $this->current_status[$line],
+                20 //seconds (MBTA doesn't want polls in frequencies greater than once every 10 seconds)
+            );
         }
     }
 

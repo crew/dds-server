@@ -53,8 +53,12 @@ class MBTAShortcoder
         ob_start();
         ?>
         <div class="mbta-container">
-            <div class="mbta-stop-name-container"><h1 class="mbta-stop-name mbta-heavy"><?php echo $stop; ?></h1></div>
-            <div class="mbta-status-banner-container"><h1 class="mbta-status-banner mbta-light">MBTA Status</h1></div>
+            <div class="mbta-status-banner-container">
+                <div class="mbta-banner-left"><h1
+                        class="mbta-heavy"><?php echo $stop; ?></h1><?php echo $this->get_styled_heading_subway_line($line); ?>
+                </div>
+                <div class="mbta-banner-right"><h1 class="mbta-light">MBTA Status</h1></div>
+            </div>
 
             <?php
             foreach ($status as $destination => $predictions) {
@@ -79,6 +83,22 @@ class MBTAShortcoder
             ?>
         </div>
         <?php
+
+        return ob_get_clean();
+    }
+
+    function get_styled_heading_subway_line($line)
+    {
+        ob_start();
+
+        switch ($line) {
+            case 'Orange Line':
+                ?><h1 class="mbta-medium mbta-orange"><?php echo $line; ?></h1><?php
+                break;
+            default:
+                ?><h1 class="mbta-medium"><?php echo $line; ?></h1><?php
+                break;
+        }
 
         return ob_get_clean();
     }

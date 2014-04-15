@@ -17,28 +17,33 @@
 
 }
 
-.mbta-stop-name-container {
-
-}
-
-.mbta-stop-name {
-
-}
-
 .mbta-status-banner-container {
 
 }
 
-.mbta-status-banner {
+.mbta-banner-left {
+    display: inline-block;
+    width: 50%;
+}
 
+.mbta-banner-right {
+    display: inline-block;
+    width: 50%;
+    text-align: right;
 }
 
 .mbta-destination-container {
+    width: 49%;
+    display: inline-block;
+}
 
+.mbta-destination-container:nth-child(odd) {
+    text-align: right;
+    float: right;
 }
 
 .mbta-destination {
-
+    margin: 0;
 }
 
 .mbta-trains-container {
@@ -51,4 +56,20 @@
 
 .mbta-minutes {
 
+}
+
+.mbta-orange {
+    color: #FD8A03;
+}
+
+.mbta-red {
+    color: #FA2D27;
+}
+
+.mbta-green {
+    color: #008150;
+}
+
+.mbta-blue {
+    color: #2F5DA6;
 }

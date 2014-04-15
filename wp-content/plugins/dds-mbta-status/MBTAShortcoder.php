@@ -6,7 +6,7 @@
  * Time: 8:02 PM
  */
 
-define('DDS_MBTA_STATUS_ORANGE_LINE_URL', 'http://developer.mbta.com/lib/rthr/orange.json');
+define('DDS_MBTA_STATUS_BASE_LINE_URL', 'http://developer.mbta.com/lib/rthr/'); //only supported are blue, red, and orange
 define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated status
 define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 4);
 define('DDS_MBTA_TIME_ZONE', 'America/New_York');
@@ -16,7 +16,7 @@ define('DDS_MBTA_GOOGLE_FONTS_NAME', 'mbtastatusgooglefonts');
 
 class MBTAShortcoder
 {
-    var $current_status_orange = false;
+    var $current_status = array();
 
     function __construct()
     {
@@ -44,11 +44,13 @@ class MBTAShortcoder
     {
         // get attributes out of short code
         extract(shortcode_atts(array(
-            'line' => 'Orange Line',
+            'line' => 'orange', // short name
             'stop' => 'Ruggles'
         ), $atts));
 
-        $status = $this->get_status_orange($stop);
+        $status = $this->get_status($line, $stop);
+
+        $long_name = $this->get_long_name($line);
 
         ob_start();
         ?>
@@ -59,7 +61,7 @@ class MBTAShortcoder
                     <h1 class="mbta-large mbta-heavy mbta-inline"><?php echo $stop; ?></h1>
 
                     <h1 class="mbta-large mbta-medium mbta-inline"
-                        style="color: <?php echo $this->get_color($line); ?>"><?php echo $line; ?></h1>
+                        style="color: <?php echo $this->get_color($line); ?>"><?php echo $long_name; ?></h1>
                 </div>
                 <div class="mbta-banner-right"><h1 class="mbta-large mbta-light mbta-inline">MBTA Status</h1></div>
             </div>
@@ -94,35 +96,68 @@ class MBTAShortcoder
     function get_color($line)
     {
         switch ($line) {
-            case 'Orange Line':
-                return '#FD8A03';
-            case 'Red Line':
-                return '#FA2D27';
-            case 'Green Line': //wishful thinking
-                return '#008150';
-            case 'Blue Line':
-                return '#2F5DA6';
+            case 'orange':
+            return '#FD8A03';
+            case 'red':
+            return '#FA2D27';
+            case 'green': //wishful thinking
+            return '#008150';
+            case 'blue':
+            return '#2F5DA6';
             default:
                 return '#000000';
         }
     }
 
-    function get_status_orange($stop_name)
+    function get_short_name($line)
+    {
+        switch ($line) {
+            case 'Orange Line':
+                return 'orange';
+            case 'Red Line':
+                return 'red';
+            case 'Green Line': //wishful thinking
+                return 'green';
+            case 'Blue Line':
+                return 'blue';
+            default:
+                return 'default';
+        }
+    }
+
+    function get_long_name($line)
+    {
+        switch ($line) {
+            case 'orange':
+                return 'Orange Line';
+            case 'red':
+                return 'Red Line';
+            case 'green': //wishful thinking
+                return 'Green Line';
+            case 'blue':
+                return 'Blue Line';
+            default:
+                return 'N/A';
+        }
+    }
+
+    // short name
+    function get_status($line_name, $stop_name)
     {
         // Each different destination in the JSON file has an index.
         $stop_predictions = array();
 
         // update information if necessary
-        $this->update_orange_line();
+        $this->update_line($line_name);
 
         // if for some reason the status update failed, exit
-        if ($this->current_status_orange == false) return false;
+        if (!isset($this->current_status[$line_name])) return false;
 
         // the timestamp of the JSON
-        $mbta_time = $this->current_status_orange->TripList->CurrentTime;
+        $mbta_time = $this->current_status[$line_name]->TripList->CurrentTime;
 
         // walk through the json and get every prediction that is for $stop_name
-        foreach ($this->current_status_orange->TripList->Trips as $trip) {
+        foreach ($this->current_status[$line_name]->TripList->Trips as $trip) {
             $destination = $trip->Destination;
             $predictions = $trip->Predictions;
 
@@ -169,23 +204,24 @@ class MBTAShortcoder
         return $updated_predictions;
     }
 
-    private function update_orange_line()
+    // short name
+    private function update_line($line)
     {
-        if ($this->current_status_orange == false) {
+        if (!isset($this->current_status[$line])) {
             // gets the transient or sets it
-            if (false === ($this->current_status_orange = get_transient('dds_mbta_current_status_orange'))) {
-                $raw_contents = $this->get_data(DDS_MBTA_STATUS_ORANGE_LINE_URL);
+            if (false === ($this->current_status[$line] = get_transient('dds_mbta_current_status_' . $line))) {
+                $raw_contents = $this->get_data(DDS_MBTA_STATUS_BASE_LINE_URL . $this->get_short_name($line) . '.json');
                 if ($raw_contents != false) {
-                    $this->current_status_orange = json_decode($raw_contents);
+                    $this->current_status[$line] = json_decode($raw_contents);
                 } else {
-                    $this->current_status_orange = false; // curl failed
-                    error_log("DDS MBTA : Failed to get MBTA information from url" . DDS_MBTA_STATUS_ORANGE_LINE_URL);
+                    $this->current_status[$line] = false; // curl failed
+                    error_log("DDS MBTA : Failed to get MBTA information from url" . DDS_MBTA_STATUS_BASE_LINE_URL . $line . '.json');
                 }
 
                 // set transient
                 set_transient(
-                    'dds_mbta_current_status_orange',
-                    $this->current_status_orange,
+                    'dds_mbta_current_status_' . $line,
+                    $this->current_status[$line],
                     20 //seconds (MBTA doesn't want polls in frequencies greater than once every 10 seconds)
                 );
             }

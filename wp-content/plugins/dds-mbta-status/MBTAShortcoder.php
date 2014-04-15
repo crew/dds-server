@@ -10,6 +10,7 @@ define('DDS_MBTA_STATUS_ORANGE_LINE_URL', 'http://developer.mbta.com/lib/rthr/or
 define('DDS_MBTA_QUERY_CONNECT_TIMEOUT', 5); //seconds to wait for updated status
 define('DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY', 3);
 define('DDS_MBTA_TIME_ZONE', 'America/New_York');
+define('DDS_MBTA_STYLE_NAME', 'mbtastatus');
 
 
 class MBTAShortcoder
@@ -19,6 +20,8 @@ class MBTAShortcoder
     function __construct()
     {
         add_shortcode('mbtastatus', array(&$this, 'mbta_status_short_code'));
+
+        wp_register_style(DDS_MBTA_STYLE_NAME, plugins_url('mbta-status.css', __FILE__));
     }
 
     function activate()
@@ -39,18 +42,20 @@ class MBTAShortcoder
             'stop' => 'Ruggles'
         ), $atts));
 
+        wp_enqueue_style(DDS_MBTA_STYLE_NAME);
+
         $status = $this->get_status_orange($stop);
 
         ob_start();
         ?>
-        <h1><?php echo $stop; ?></h1>
+        <div class="mbta-container">
+        <h1 class="mbta-stop-name"><?php echo $stop; ?></h1>
         <?php
         foreach ($status as $destination => $predictions) {
-
             ?>
-            <div><h2><?php echo $destination; ?></h2>
+            <div class="mbta-destination-container"><h2 class="mbta-destination"><?php echo $destination; ?></h2>
 
-                <div><h3>Trains in:</h3>
+                <div class="mbta-trains-in-container"><h3 class="mbta-trains-in">Trains in:</h3>
                     <?php
 
                     for ($i = 0; $i < min(count($predictions), DDS_MBTA_NUMBER_OF_TRAINS_TO_DISPLAY); $i++) {
@@ -59,12 +64,15 @@ class MBTAShortcoder
                     }
 
                     ?>
-                    <h3>minutes</h3></div>
+                    <h3 class="mbta-minutes">minutes</h3></div>
             </div>
         <?php
         }
+        ?>
+        </div>
+        <?php
 
-        ob_get_clean();
+        return ob_get_clean();
     }
 
     function get_status_orange($stop_name)
@@ -111,15 +119,20 @@ class MBTAShortcoder
         $updated_predictions = array();
 
         // loop through predictions and subtract the time difference from every prediction.
-        foreach ($stop_predictions as $destination => $prediction) {
-            $updated_predictions[$destination] = intval($prediction) - intval($time_difference); // just in case
+        foreach ($stop_predictions as $destination => $predictions) {
+            // create temporary array for storing prediction times and then sorting.
+            $updated_predictions_part = array();
+            foreach ($predictions as $index => $prediction) {
+                $updated_predictions_part[$index] = intval($prediction) - intval($time_difference); // just in case
+            }
+            // sort low to high prediction times
+            sort($updated_predictions_part);
+            // update destination
+            $updated_predictions[$destination] = $updated_predictions_part;
         }
 
         // sort destination keys
         ksort($updated_predictions);
-
-        // sort low to high prediction times
-        sort($updated_predictions);
 
         return $updated_predictions;
     }

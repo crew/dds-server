@@ -31,12 +31,12 @@
 
 .mbta-banner-left {
     display: inline-block;
-    width: 74%;
+    width: 65%;
 }
 
 .mbta-banner-right {
     display: inline-block;
-    width: 24%;
+    width: 32%;
     text-align: right;
     float: right;
 }

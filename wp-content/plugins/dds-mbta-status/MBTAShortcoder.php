@@ -211,7 +211,7 @@ class MBTAShortcoder
         $this->update_line($line_name);
 
         // if for some reason the status update failed, exit
-        if (!isset($this->current_status[$line_name])) return false;
+        if (empty($this->current_status[$line_name])) return false;
 
         // the timestamp of the JSON
         $mbta_time = $this->current_status[$line_name]->TripList->CurrentTime;

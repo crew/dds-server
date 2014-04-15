@@ -1,12 +1,16 @@
 <html>
 <head>
     <title>CCIS Digital Display System</title>
+    <?php
+    wp_dequeue_style('screen');
+    wp_head();
+    ?>
     <style>
-    html, body {
-        margin:0;
-        padding:0;
-        border:0;
-    }
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
     </style>
     <?php
         $theme = get_post_meta(get_the_ID(), 'dds_theme', true);

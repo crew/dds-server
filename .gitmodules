@@ -1,0 +1,3 @@
+[submodule "wp-content/plugins/MBTAShortcoder"]
+	path = wp-content/plugins/MBTAShortcoder
+	url = https://github.com/wolfd/MBTAShortcoder.git

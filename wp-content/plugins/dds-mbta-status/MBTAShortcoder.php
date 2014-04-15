@@ -24,6 +24,10 @@ class MBTAShortcoder
 
         wp_register_style(DDS_MBTA_STYLE_NAME, plugins_url('mbta-status.css', __FILE__));
         wp_register_style(DDS_MBTA_GOOGLE_FONTS_NAME, '//fonts.googleapis.com/css?family=Nunito:300,400,700');
+
+        // load stylesheets
+        wp_enqueue_style(DDS_MBTA_STYLE_NAME);
+        wp_enqueue_style(DDS_MBTA_GOOGLE_FONTS_NAME);
     }
 
     function activate()
@@ -43,10 +47,6 @@ class MBTAShortcoder
             'line' => 'Orange Line',
             'stop' => 'Ruggles'
         ), $atts));
-
-        // load stylesheets
-        wp_enqueue_style(DDS_MBTA_STYLE_NAME);
-        wp_enqueue_style(DDS_MBTA_GOOGLE_FONTS_NAME);
 
         $status = $this->get_status_orange($stop);
 

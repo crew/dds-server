@@ -100,7 +100,7 @@ class MBTAShortcoder
                     <h1 class="mbta-large mbta-medium mbta-inline"
                         style="color: <?php echo $this->get_color($line); ?>"><?php echo $long_name; ?></h1>
                 </div>
-                <div class="mbta-banner-right"><h1 class="mbta-large mbta-light mbta-inline">MBTA Status</h1></div>
+                <div class="mbta-banner-right"><h1 class="mbta-large mbta-light mbta-inline">MBTA</h1></div>
             </div>
 
             <?php

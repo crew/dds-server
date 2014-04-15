@@ -2,10 +2,9 @@
 <head>
     <title>CCIS Digital Display System</title>
     <?php
-    wp_dequeue_style('twentyfourteen-lato');
-    wp_dequeue_style('genericons');
-    wp_dequeue_style('twentyfourteen-style');
-    wp_dequeue_style('twentyfourteen-ie');
+
+    add_action('wp_enqueue_scripts', 'dds_mods_remove_twentyfourteen_css', 25);
+
     wp_head();
     ?>
     <style>

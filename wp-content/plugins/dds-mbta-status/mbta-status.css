@@ -25,6 +25,10 @@
     font-size: 2em;
 }
 
+.mbta-superlarge {
+    font-size: 3em;
+}
+
 .mbta-status-banner-container {
     margin-bottom: 1em;
 }
@@ -65,4 +69,10 @@
 
 .mbta-minutes {
     margin: 0;
+}
+
+.mbta-no-trains-container {
+    height: 10em;
+    line-height: 10em;
+    text-align: center;
 }

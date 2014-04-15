@@ -86,6 +86,13 @@ class MBTAShortcoder
                 </div>
             <?php
             }
+
+            if (count($status) == 0) {
+                ?>
+                <div class="mbta-no-trains-container"><h1 class="mbta-superlarge mbta-medium">No Trains Running</h1>
+                </div>
+            <?php
+            }
             ?>
         </div>
         <?php

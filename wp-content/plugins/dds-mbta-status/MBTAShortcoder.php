@@ -112,7 +112,7 @@ class MBTAShortcoder
 
         // loop through predictions and subtract the time difference from every prediction.
         foreach ($stop_predictions as $destination => $prediction) {
-            $updated_predictions[$destination] = $prediction - $time_difference;
+            $updated_predictions[$destination] = intval($prediction) - intval($time_difference); // just in case
         }
 
         // sort destination keys

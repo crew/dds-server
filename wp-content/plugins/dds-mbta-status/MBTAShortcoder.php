@@ -53,11 +53,15 @@ class MBTAShortcoder
         ob_start();
         ?>
         <div class="mbta-container">
-            <div class="mbta-status-banner-container">
-                <div class="mbta-banner-left"><h1
-                        class="mbta-heavy"><?php echo $stop; ?></h1><?php echo $this->get_styled_heading_subway_line($line); ?>
+            <div class="mbta-status-banner-container"
+                 style="border-bottom: 1px solid <?php echo $this->get_color($line); ?>">
+                <div class="mbta-banner-left">
+                    <h1 class="mbta-large mbta-heavy mbta-inline"><?php echo $stop; ?></h1>
+
+                    <h1 class="mbta-large mbta-medium mbta-inline"
+                        style="color: <?php echo $this->get_color($line); ?>"><?php echo $line; ?></h1>
                 </div>
-                <div class="mbta-banner-right"><h1 class="mbta-light">MBTA Status</h1></div>
+                <div class="mbta-banner-right"><h1 class="mbta-large mbta-light mbta-inline">MBTA Status</h1></div>
             </div>
 
             <?php
@@ -87,20 +91,20 @@ class MBTAShortcoder
         return ob_get_clean();
     }
 
-    function get_styled_heading_subway_line($line)
+    function get_color($line)
     {
-        ob_start();
-
         switch ($line) {
             case 'Orange Line':
-                ?><h1 class="mbta-medium mbta-orange"><?php echo $line; ?></h1><?php
-                break;
+                return '#FD8A03';
+            case 'Red Line':
+                return '#FA2D27';
+            case 'Green Line': //wishful thinking
+                return '#008150';
+            case 'Blue Line':
+                return '#2F5DA6';
             default:
-                ?><h1 class="mbta-medium"><?php echo $line; ?></h1><?php
-                break;
+                return '#000000';
         }
-
-        return ob_get_clean();
     }
 
     function get_status_orange($stop_name)

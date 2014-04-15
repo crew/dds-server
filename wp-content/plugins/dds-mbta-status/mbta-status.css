@@ -1,3 +1,11 @@
+.mbta-container {
+    margin: 2em;
+}
+
+.mbta-inline {
+    display: inline;
+}
+
 .mbta-light {
     font-family: Nunito;
     font-weight: 300;
@@ -13,23 +21,24 @@
     font-weight: 700;
 }
 
-.mbta-container {
-
+.mbta-large {
+    font-size: 2em;
 }
 
 .mbta-status-banner-container {
-
+    margin-bottom: 1em;
 }
 
 .mbta-banner-left {
     display: inline-block;
-    width: 50%;
+    width: 74%;
 }
 
 .mbta-banner-right {
     display: inline-block;
-    width: 50%;
+    width: 24%;
     text-align: right;
+    float: right;
 }
 
 .mbta-destination-container {
@@ -43,33 +52,17 @@
 }
 
 .mbta-destination {
-    margin: 0;
+    margin: 0 32px;
 }
 
 .mbta-trains-container {
-
+    margin: 0 32px;
 }
 
 .mbta-trains-in {
-
+    margin: 0;
 }
 
 .mbta-minutes {
-
-}
-
-.mbta-orange {
-    color: #FD8A03;
-}
-
-.mbta-red {
-    color: #FA2D27;
-}
-
-.mbta-green {
-    color: #008150;
-}
-
-.mbta-blue {
-    color: #2F5DA6;
+    margin: 0;
 }

@@ -9,10 +9,10 @@ body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-#entry-content h1 {
-    font-size: 1000px;
+h1 {
+    font-size: 100px;
 }
 
-#entry-content p {
+p {
     font-size: 70px;
 }

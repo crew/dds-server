@@ -1,0 +1,29 @@
+/*
+Theme Name: simple
+*/
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+#entry-content {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 90px;
+}
+
+p {
+    font-size: 60px;
+}
+
+a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+img {
+    border-radius: 5px;
+    float: left;
+    padding-right: 10px;
+}

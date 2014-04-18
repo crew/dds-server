@@ -25,4 +25,5 @@ a {
 img {
     border-radius: 5px;
     float: left;
+    padding-right: 10px;
 }

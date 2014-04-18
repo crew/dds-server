@@ -5,11 +5,22 @@ Theme Name: simple
 body {
     background-color: rgb(255, 255, 255);
 }
+#entry-content {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 
-h1 {
+#entry-content h1 {
     font-size: 100px;
 }
 
-#entry-content {
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
+#entry-content h1 del {
+    width: 15px;
+}
+
+#entry-content p {
+    font-size: 70px;
+}
+
+#entry-content p del {
+    width: 15px;
 }

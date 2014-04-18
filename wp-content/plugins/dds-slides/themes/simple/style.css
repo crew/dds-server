@@ -2,6 +2,14 @@
 Theme Name: simple
 */
 
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+h1 {
+    font-size: 100px;
+}
+
 #entry-content {
-    font-family: 'Verdana', 'Geneva', sans-serif;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
 }

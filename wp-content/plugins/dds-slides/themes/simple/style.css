@@ -3,7 +3,7 @@ Theme Name: simple
 */
 
 body {
-    background-color: rgb(255, 255, 0);
+    background-color: rgb(255, 255, 255);
 }
 #entry-content {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -13,13 +13,6 @@ body {
     font-size: 100px;
 }
 
-#entry-content h1 del {
-    width: 15px;
-}
 #entry-content p {
     font-size: 70px;
-}
-
-#entry-content p del {
-    width: 15px;
 }

@@ -16,3 +16,12 @@ h1 {
 p {
     font-size: 70px;
 }
+
+a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+img {
+    border-radius: 5px;
+}

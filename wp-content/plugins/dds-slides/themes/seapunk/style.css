@@ -26,9 +26,8 @@ float: left;
 margin: 20px;
 border: 0px solid #1A1A11;
 border-radius: 50px;
-height: 400px;
-width: 400px;
-overflow: hidden;
+height: 300px;
+width: 100%;
 }
 
 #content {

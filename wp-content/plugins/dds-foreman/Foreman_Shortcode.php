@@ -9,20 +9,19 @@ Author URI: http://crew.ccs.neu.edu/people
 */
 
 class Foreman_Shortcode {
-    private $basic_authentication;
-    private $username;
-    private $password;
-    private $foreman_url;
-    private $transient_key;
-    private $ignore_ssl;
+    protected  $basic_authentication;
+    protected $username;
+    protected $password;
+    protected $foreman_url;
+    protected $transient_key;
+    protected $ignore_ssl;
+    protected $loaded;
 
-    private $data;
-    private $loaded;
+    protected $data;
     /**
      * The Constructor for the Shortcode Plugin
      */
     function __construct() {
-        $this->loaded = false;
 
         add_action('init', array(&$this, 'init'));
     }
@@ -32,6 +31,8 @@ class Foreman_Shortcode {
      * Runs on Wordpress init action
      */
     function init() {
+        $this->loaded = false;
+
         // Abstractable
         $options = apply_filters('json_api_request_opts', get_option('dds_foreman_options', false));
 
@@ -65,6 +66,44 @@ class Foreman_Shortcode {
         if (!$this->loaded)
             return;
 
+
+
+        $json = (array) json_decode($this->data);
+
+        $total_hosts = $json->total_hosts;
+
+
+        $pie_fields = array(
+            'good_hosts_enabled' => array('label' => __('Good Hosts'),
+                'color' => 'blue'),
+            'active_hosts_ok_enabled' => array('label' => __('Good host reports in the last 35 minutes'),
+                'color' => 'blue'),
+            'out_of_sync_hosts_enabled' => array('label' => __('Hosts that had performed modifications without error'),
+                'color' => 'orange'),
+            'bad_hosts_enabled' => array('label' => __('Hosts in error state'),
+                'color' => 'red'),
+            'pending_hosts_enabled' => array('label' => __('Hosts that had pending changes'),
+                'color' => 'purple'),
+            'reports_missing' => array('label' => __('Hosts with no reports'),
+                'color' => 'yellow'),
+            'disabled_hosts' => array('label' => __('Hosts with alerts disabled'),
+                'color' => 'gray'),
+        );
+
+        $pie_data = array();
+
+        foreach ($json as $key => $value) {
+            if (array_key_exists($key, $pie_fields)) {
+                $pie_data[] = array('label' => $pie_fields[$key]['label'], 'value' => $value);
+            }
+        }
+
+        die(json_encode($pie_data));
+
+
+
+
+
         $html = '<div style="text-align:center;">';
         $html .= '<h1>Latest Foreman Statistics</h1>';
         $html .= "<uL>";
@@ -97,12 +136,12 @@ class Foreman_Shortcode {
             curl_setopt($curler, CURLOPT_RETURNTRANSFER, true);
             $data = curl_exec($curler);
             curl_close($curler);
-            $this->data = json_decode($data);
+            $this->data = $data;
 
             $updated = set_transient($this->transient_key, $this->data, $this->transient_timeout);
 
             if (!$updated) {
-                wp_die('Could not set transient ' . $this->transient_key);
+                return false;
             }
             $this->loaded = true;
             return $this->data;

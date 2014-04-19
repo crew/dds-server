@@ -11,7 +11,6 @@ Author URI: http://crew.ccs.neu.edu/people
 define('MAX_SLIDE_DURATION', 60);
 
 add_action( 'init', 'dds_slide_init' );
-add_action('init', 'dds_pie_init');
 /**
  * Register the post type "slide"
  *
@@ -59,44 +58,11 @@ function dds_slide_init() {
     register_post_type( 'slide', $args );
 }
 
-function dds_pie_init() {
-    $labels = array(
-        'name'               => _x( 'PIEs', 'post type general name', 'dds-api'),
-        'singular_name'      => _x( 'PIE', 'post type singular name', 'dds-api' ),
-        'menu_name'          => _x( 'PIEs', 'admin menu', 'dds-api'),
-        'name_admin_bar'     => _x( 'PIE', 'add new on admin bar', 'dds-api' ),
-        'add_new'            => _x( 'Add New', 'slide', 'dds-api' ),
-        'add_new_item'       => __( 'Add New PIE', 'dds-api' ),
-        'new_item'           => __( 'New PIE', 'dds-api' ),
-        'edit_item'          => __( 'Edit PIE', 'dds-api' ),
-        'view_item'          => __( 'View PIE', 'dds-api' ),
-        'all_items'          => __( 'All PIEs', 'dds-api' ),
-        'search_items'       => __( 'Search PIEs', 'dds-api' ),
-        'parent_item_colon'  => __( 'Parent PIEs:', 'dds-api' ),
-        'not_found'          => __( 'No PIEs found.', 'dds-api' ),
-        'not_found_in_trash' => __( 'No PIEs found in Trash.', 'dds-api' ),
-    );
 
-    $args = array(
-        'labels'             => $labels,
-        'public'             => true,
-        'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array( 'slug' => 'slide' ),
-        'capability_type'    => 'post',
-        'has_archive'        => false,
-        'hierarchical'       => false,
-        'supports'           => array( 'title', 'editor', 'author', 'thumbnail'),
-        'show_in_nav_menus'  => true,
-        'taxonomies'         => array( 'category' ),
-        'menu_position'      => 5
-    );
 
-    register_post_type( 'PIE', $args );
-}
-
+/**
+ * Makes changes to the wp_editor on a slide's edit page
+ */
 function dds_slide_editor() {
     $screen = get_current_screen();
     if ($screen->id == 'slide') {
@@ -112,8 +78,20 @@ function dds_slide_editor() {
 }
 add_action('admin_enqueue_scripts', 'dds_slide_editor');
 
+/**
+ * Registers the slide metabox for the 'slide' custom post type
+ */
+function dds_register_slide_metabox() {
+    add_meta_box('dds-slide-themes', 'Slide Options', 'dds_slide_metabox', 'slide');
+}
 
-function dds_slide_theme_metabox() {
+add_action('add_meta_boxes', 'dds_register_slide_metabox');
+
+
+/**
+ * Renders the slide metabox on a slides edit page
+ */
+function dds_slide_metabox() {
     $id = get_the_ID();
 
     ?>
@@ -184,12 +162,10 @@ function dds_slide_theme_metabox() {
 <?php
 }
 
-function dds_register_slide_metabox() {
-    add_meta_box('dds-slide-themes', 'Slide Options', 'dds_slide_theme_metabox', 'slide');
-}
-
-add_action('add_meta_boxes', 'dds_register_slide_metabox');
-
+/**
+ * Saves the duration, theme, and external url of the slide with the given $post_id
+ * @param int $post_id The post ID of the slide
+ */
 function dds_save_slide_options($post_id) {
     if (get_post_type($post_id) != 'slide') {
         return;
@@ -213,3 +189,45 @@ function dds_save_slide_options($post_id) {
 }
 
 add_action('save_post', 'dds_save_slide_options');
+
+/**
+ * Gets the List of slides that the DDS Clients need to
+ * @param $actions The Current List of actions that has already been compiled by other plugins
+ * @param $pie_post The post representing the PIE that is currently requesting commands
+ * @param $pie_name The name of the PIE that is currently requesting commands
+ * @return array An array of Actions that the PIE should make
+ */
+function dds_slide_actions($actions, $pie_post, $pie_name) {
+
+    $catids = wp_get_post_categories($pie_post->ID);
+
+    $posts = array();
+
+    foreach ($catids as $cur_category) {
+        $slides = get_posts(array(
+            'posts_per_page' => -1,
+            'category' => $cur_category,
+            'orderby' => 'ID',
+            'order' => 'DESC',
+            'post_type' => 'slide',
+            'post_status' => 'publish',
+            'suppress_filters' => false
+        ));
+        foreach ($slides as $slide) {
+            if (!in_array($slide, $posts)) {
+                $posts[] = $slide;
+            }
+        }
+    }
+
+    foreach ($posts as $p) {
+        $actions[] = array(
+            'type' => 'slide',
+            'location' => get_slide_location($pie_name, $p->ID),
+            'duration' => (float)get_post_meta($p->ID, 'dds_duration', true));
+    }
+
+    return $actions;
+}
+
+add_filter('dds_pie_actions', 'dds_slide_actions', 10, 3);

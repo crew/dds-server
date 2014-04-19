@@ -10,11 +10,16 @@ Author URI: http://crew.ccs.neu.edu/people
 
 
 
-
+/**
+ * Init method for General Wordpress Mods
+ */
 function dds_mods_init() {
     global $wp_taxonomies;
 
-    // The list of labels we can modify comes from
+
+    /* Rename 'Categories' to 'Groups' */
+
+    //  The list of labels we can modify comes from
     //  http://codex.wordpress.org/Function_Reference/register_taxonomy
     //  http://core.trac.wordpress.org/browser/branches/3.0/wp-includes/taxonomy.php#L350
     $wp_taxonomies['category']->labels = (object)array(
@@ -24,7 +29,7 @@ function dds_mods_init() {
         'search_items' => 'Search Groups',
         'popular_items' => 'Popular Groups',
         'all_items' => 'All Groups',
-        'parent_item' => null, // Tags aren't hierarchical
+        'parent_item' => null,
         'parent_item_colon' => null,
         'edit_item' => 'Edit Group',
         'update_item' => 'Update Group',
@@ -42,8 +47,12 @@ function dds_mods_init() {
 
 add_action('init', 'dds_mods_init');
 
-
+/**
+ * Removes unnessesary admin menu items from the Wordpress Admin For non-administrators
+ */
 function dds_mods_remove_menus() {
+
+    // Getting the Role of the Currently Logged In User
     global $current_user, $wpdb;
     $role = $wpdb->prefix . 'capabilities';
     $current_user->role = array_keys($current_user->$role);

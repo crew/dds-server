@@ -51,22 +51,23 @@ add_action('init', 'dds_mods_init');
  * Removes unnessesary admin menu items from the Wordpress Admin For non-administrators
  */
 function dds_mods_remove_menus() {
+    if (is_user_logged_in()) {
+        // Getting the Role of the Currently Logged In User
+        global $current_user, $wpdb;
+        $role = $wpdb->prefix . 'capabilities';
+        $current_user->role = array_keys($current_user->$role);
+        $role = $current_user->role[0];
 
-    // Getting the Role of the Currently Logged In User
-    global $current_user, $wpdb;
-    $role = $wpdb->prefix . 'capabilities';
-    $current_user->role = array_keys($current_user->$role);
-    $role = $current_user->role[0];
 
+        if ($role != 'administrator') {
+            remove_menu_page('edit.php');
+            remove_menu_page('upload.php');
+            remove_menu_page('edit.php?post_type=page');
+            remove_menu_page('edit.php?post_type=pie');
+            remove_menu_page('edit-comments.php');
+            remove_menu_page('tools.php');
 
-    if ($role != 'administrator') {
-        remove_menu_page('edit.php');
-        remove_menu_page('upload.php');
-        remove_menu_page('edit.php?post_type=page');
-        remove_menu_page('edit.php?post_type=pie');
-        remove_menu_page('edit-comments.php');
-        remove_menu_page('tools.php');
-
+        }
     }
 }
 

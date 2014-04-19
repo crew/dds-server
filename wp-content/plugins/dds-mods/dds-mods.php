@@ -4,7 +4,7 @@ Plugin Name: DDS UI Modifications Plugin
 Plugin URI: http://crew.ccs.neu.edu/
 Description:  UI modifications for DDS
 Version: 0.1
-Author: Eddie Hurtig
+Author: Eddie Hurtig, Crew
 Author URI: http://crew.ccs.neu.edu/people
 */
 

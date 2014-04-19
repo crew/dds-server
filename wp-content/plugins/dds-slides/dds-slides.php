@@ -97,6 +97,20 @@ function dds_pie_init() {
     register_post_type( 'PIE', $args );
 }
 
+function dds_slide_editor() {
+    $screen = get_current_screen();
+    if ($screen->id == 'slide') {
+        $id = get_the_ID();
+        $post = get_post($id);
+        if ($post->post_type == 'slide') {
+            $theme = get_post_meta($id, 'dds_theme', true);
+            if ($theme) {
+                add_editor_style($theme);
+            }
+        }
+    }
+}
+add_action('admin_enqueue_scripts', 'dds_slide_editor');
 
 
 function dds_slide_theme_metabox() {
@@ -108,7 +122,7 @@ function dds_slide_theme_metabox() {
         <label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide
                 from scratch.</i>
             <select id="dds_theme" name="dds_theme">
-                <option value="">None</option>
+                <option value="<?php echo plugins_url('default/style.css', __FILE__); ?>"> Default Theme </option>
                 <?php
                 $current_theme = get_post_meta($id, 'dds_theme', true);
                 $dds_theme_dir = __DIR__ . '/themes/';
@@ -162,7 +176,7 @@ function dds_slide_theme_metabox() {
             $current_external_url = get_post_meta($id, 'dds_external_url', true);
             ?>
             <input type="text" name="dds_external_url" placeholder="http://www.google.com"
-                   value="<?php echo $current_external_url; ?>">
+                   value="<?php echo $current_external_url; ?>" style="width: 50%; min-width: 400px;">
         </label>
 
 

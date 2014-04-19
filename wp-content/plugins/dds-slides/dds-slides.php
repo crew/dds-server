@@ -4,7 +4,7 @@ Plugin Name: DDS Slides Plugin
 Plugin URI: http://crew.ccs.neu.edu/
 Description:  Adds slides capability to DDS
 Version: 0.1
-Author: TERESATERESAKRAUSE//CREW//KRAUSETERESA
+Author: Teresa Krause, Eddie Hurtig, Crew
 Author URI: http://crew.ccs.neu.edu/people
 */
 

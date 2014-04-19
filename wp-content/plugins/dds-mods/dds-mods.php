@@ -10,7 +10,6 @@ Author URI: http://crew.ccs.neu.edu/people
 
 
 
-add_action('init', 'dds_mods_init');
 
 function dds_mods_init() {
     global $wp_taxonomies;
@@ -41,7 +40,8 @@ function dds_mods_init() {
 
 }
 
-add_action('admin_menu', 'dds_mods_remove_menus');
+add_action('init', 'dds_mods_init');
+
 
 function dds_mods_remove_menus() {
     global $current_user, $wpdb;
@@ -60,6 +60,8 @@ function dds_mods_remove_menus() {
 
     }
 }
+
+add_action('admin_menu', 'dds_mods_remove_menus');
 
 // only enabled when viewed from pie
 function dds_mods_remove_twentyfourteen_css()

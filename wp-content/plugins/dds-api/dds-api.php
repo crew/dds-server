@@ -81,6 +81,7 @@ function dds_api_call()
     $actions = array();
     foreach ($posts as $p) {
         $actions[] = array(
+            'type' => 'slide',
             'location' => get_slide_location($pie_name, $p->ID),
             'duration' => (float)get_post_meta($p->ID, 'dds_duration', true));
     }

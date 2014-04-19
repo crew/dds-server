@@ -4,7 +4,7 @@ Plugin Name: DDS API Plugin
 Plugin URI: http://crew.ccs.neu.edu/
 Description:  Issues commands to dds-clients upon request (HTTP) and responds with a JSON for the queue.
 Version: 0.1
-Author: LILILILIDUMOULIN//CREW//DUMOULINLILI
+Author: Lili Dumoulin, Teresa Krause, Eddie Hurtig, Crew
 Author URI: http://crew.ccs.neu.edu/people
 */
 /**

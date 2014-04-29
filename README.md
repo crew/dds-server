@@ -1,4 +1,4 @@
-dds-server
+DDS Server
 ==========
 
 The DDS Server

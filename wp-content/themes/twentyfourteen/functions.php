@@ -229,6 +229,9 @@ function twentyfourteen_font_url() {
  * @return void
  */
 function twentyfourteen_scripts() {
+	if ( function_exists( 'is_pie_request' ) && is_pie_request() ) {
+		return;
+	}
 	// Add Lato font, used in the main stylesheet.
 	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
 

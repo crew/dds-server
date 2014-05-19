@@ -3,8 +3,6 @@
     <title>CCIS Digital Display System</title>
     <?php
 
-    add_action('wp_enqueue_scripts', 'dds_mods_remove_twentyfourteen_css', 25);
-
     wp_head();
     ?>
     <style>

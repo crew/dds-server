@@ -150,7 +150,7 @@ add_action( 'wp_ajax_nopriv_dds_api', 'dds_api_call' );
 /**
  * Generates the location URL for the specified slide post.
  *
- * @param $pie string the name of the PIE as a string
+ * @param $pie     string the name of the PIE as a string
  * @param $post_id number the post to get location of
  *
  * @return string the location URL as a string
@@ -162,5 +162,17 @@ function get_slide_location( $pie, $post_id ) {
 	} else {
 		return get_permalink( $post_id ) . '&pie_name=' . $pie;
 	}
+}
+
+/**
+ * Returns true if the current request is coming from a PIE via the dds-client
+ *
+ * (All Requests from the dds-client must provide a pie_name variable in the request)
+ *
+ *
+ * @return bool Whether this request is coming from a PIE via the dds-client
+ */
+function is_pie_request() {
+	return isset( $_REQUEST['pie_name'] );
 }
 

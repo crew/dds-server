@@ -42,7 +42,7 @@ function dds_person_init() {
     'capability_type'    => 'post',
     'has_archive'        => false,
     'hierarchical'       => false,
-    'supports'           => array( 'custom fields'),
+    'supports'           => array( 'custom-fields'),
     'show_in_nav_menus'  => false,
     'menu_position'      => 5,
     'capabilities'       => array(

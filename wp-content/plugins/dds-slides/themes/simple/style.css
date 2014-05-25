@@ -2,6 +2,8 @@
 Theme Name: simple
 */
 
+@import url('../undoWP.css');
+
 body {
     background-color: rgb(255, 255, 255);
 }
@@ -27,3 +29,4 @@ img {
     float: left;
     padding-right: 10px;
 }
+

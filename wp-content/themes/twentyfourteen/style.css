@@ -831,7 +831,7 @@ span + .edit-link:before,
 
 .site-header {
 	background-color: #000;
-	/* max-width: 1260px; */
+	/*max-width: 1260px;*/
 	position: relative;
 	width: 100%;
 	z-index: 4;
@@ -1015,7 +1015,7 @@ span + .edit-link:before,
 
 .hentry {
 	margin: 0 auto 48px;
-	max-width: 672px;
+	/*max-width: 672px;*/
 }
 
 .site-content .entry-header,
@@ -3563,7 +3563,7 @@ a.post-thumbnail:hover {
 	}
 
 	.site-content {
-		margin-right: 29.04761904%;
+	        margin-right: 29.04761904%;
 		margin-left: 182px;
 	}
 

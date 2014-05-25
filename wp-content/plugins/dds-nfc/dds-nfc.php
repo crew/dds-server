@@ -37,7 +37,9 @@ function dds_person_init() {
     'menu_position'      => 5,
     'capabilities'       => array(
                   "manage_options",
-                  "read_post",
+                  "manage_options",
+                  "manage_options",
+                  "manage_options",
                   "manage_options",
                   "manage_options",
                   "manage_options"),

@@ -1,3 +1,13 @@
+<?php
+/*
+Plugin Name: DDS NFC plugin
+Plugin URI: http://crew.ccs.neu.edu/
+Description:  Manages storage for NFC communication/ profiles
+Version: 0.1
+Author: Teresa Krause, Eddie Hurtig, Crew
+Author URI: http://crew.ccs.neu.edu/people
+*/
+
 /**
  * Register the post type "person"
  *

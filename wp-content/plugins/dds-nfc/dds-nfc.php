@@ -55,7 +55,7 @@ function dds_person_init() {
                   "manage_options"),
   );
 
-  register_post_type( 'slide', $args );
+  register_post_type( 'person', $args );
 }
 
 add_action( 'init', 'dds_person_init' );

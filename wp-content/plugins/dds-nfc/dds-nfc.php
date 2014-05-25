@@ -45,14 +45,14 @@ function dds_person_init() {
     'supports'           => array( 'custom-fields'),
     'show_in_nav_menus'  => false,
     'menu_position'      => 5,
-    'capabilities'       => array(
-                  "manage_options",
-                  "manage_options",
-                  "manage_options",
-                  "manage_options",
-                  "manage_options",
-                  "manage_options",
-                  "manage_options"),
+    // 'capabilities'       => array(
+    //               "manage_options",
+    //               "manage_options",
+    //               "manage_options",
+    //               "manage_options",
+    //               "manage_options",
+    //               "manage_options",
+    //               "manage_options"),
   );
 
   register_post_type( 'person', $args );

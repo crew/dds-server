@@ -160,7 +160,7 @@ function get_slide_location( $pie, $post_id ) {
 	if ( $external_url && is_string( $external_url ) ) {
 		return $external_url;
 	} else {
-		return get_permalink( $post_id ) . '&pie_name=' . $pie;
+		return add_query_arg( array( 'pie_name' => $pie ), get_permalink( $post_id ) );
 	}
 }
 

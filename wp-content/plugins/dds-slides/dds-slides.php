@@ -97,7 +97,7 @@ function dds_slide_metabox() {
 		<label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide
 				from scratch.</i>
 			<select id="dds_theme" name="dds_theme">
-				<option value="<?php echo plugins_url( 'default/style.css', __FILE__ ); ?>"> Default Theme</option>
+				<option value="<?php echo plugins_url( 'themes/default/style.css', __FILE__ ); ?>"> Default Theme</option>
 				<?php
 				$current_theme = get_post_meta( $id, 'dds_theme', true );
 				$dds_theme_dir = __DIR__ . '/themes/';

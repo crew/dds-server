@@ -102,9 +102,7 @@ function dds_slide_metabox() {
 				$current_theme = get_post_meta( $id, 'dds_theme', true );
 				$dds_theme_dir = __DIR__ . '/themes/';
 				$themes        = scandir( $dds_theme_dir );
-				echo $dds_theme_dir;
 
-				print_r( $themes );
 				if ( $themes ) :
 					foreach ( $themes as $theme ) :
 						if ( strpos( $theme, '.css' ) == strlen( $theme ) - 4 ) {

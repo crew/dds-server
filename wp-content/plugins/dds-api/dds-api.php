@@ -8,7 +8,7 @@ Author: Lili Dumoulin, Teresa Krause, Eddie Hurtig, Crew
 Author URI: http://crew.ccs.neu.edu/people
 */
 /**
- * Suppressing any and all warnings if this is an API Call because you shouldn't be using DUMB plugins that throw errors
+ * Suppressing any and all warnings if this is an API Call because you shouldn't be using DUMB plugins that throw errors... cough cough
  */
 if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'dds_api' ) {
 	error_reporting( 0 );
@@ -87,7 +87,7 @@ add_action( 'init', 'dds_pie_init' );
  *    - $pie_name The PIE name
  *
  *
- * In your Wordpress Plugin all you need is the following code:
+ * In your WordPress Plugin all you need is the following code:
  *
  * function your_function_name($actions, $pie_post, $pie_name) {
  *    ... Your Code Here (add to/modify $actions) ...
@@ -96,11 +96,11 @@ add_action( 'init', 'dds_pie_init' );
  *
  * add_filter( 'dds_pie_actions', 'your_function_name', 10, 3 );
  *
- * To learn more about wordpress actions (not to be confused with PIE actions) and wordpress filters check out:
+ * To learn more about WordPress actions (not to be confused with PIE actions) and WordPress filters check out:
  *
  * @link https://codex.wordpress.org/Plugin_API
  *
- * Also as a note, to create a wordpress plugin see
+ * Also as a note, to create a WordPress plugin see
  * @link https://codex.wordpress.org/Writing_a_Plugin
  */
 function dds_api_call() {

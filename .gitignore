@@ -12,3 +12,6 @@ wp-content/cache/
 wp-content/backups/
 sitemap.xml.gz
 wp-config.php
+wp-content/plugins/user-role-editor/
+wp-content/plugins/redirection/
+wp-content/plugins/restrict-categories/

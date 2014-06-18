@@ -67,7 +67,7 @@ function dds_slide_editor() {
 		if ( $post->post_type == 'slide' ) {
 			$theme = get_post_meta( $id, 'dds_theme', true );
 			if ( $theme ) {
-				add_editor_style( $theme );
+				add_editor_style( plugins_url( "themes/$theme/style.css", __FILE__ ) );
 			}
 		}
 	}
@@ -89,15 +89,12 @@ add_action( 'add_meta_boxes', 'dds_register_slide_metabox' );
  * Renders the slide metabox on a slides edit page
  */
 function dds_slide_metabox() {
-	$id = get_the_ID();
-
-	?>
+	$id = get_the_ID(); ?>
 	<div class="dds-metabox">
 
 		<label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide
 				from scratch.</i>
 			<select id="dds_theme" name="dds_theme">
-				<option value="<?php echo plugins_url( 'themes/default/style.css', __FILE__ ); ?>"> Default Theme</option>
 				<?php
 				$current_theme = get_post_meta( $id, 'dds_theme', true );
 				$dds_theme_dir = __DIR__ . '/themes/';
@@ -106,34 +103,29 @@ function dds_slide_metabox() {
 				if ( $themes ) :
 					foreach ( $themes as $theme ) :
 						if ( strpos( $theme, '.css' ) == strlen( $theme ) - 4 ) {
-							// Proccessing for a droppin css file
+							// Processing for a drop-in css file to themes/themestyle.css... Not Supported because you should create a directory for your theme!
 						} else if ( is_dir( $dds_theme_dir . $theme ) && ! in_array( $theme, array( '.', '..' ) ) ) {
 
-							$theme = $theme . '/style.css';
-							if ( ! is_file( $dds_theme_dir . $theme ) ) {
+							$stylesheet = $theme . '/style.css';
+							if ( ! is_file( $dds_theme_dir . $stylesheet ) ) {
 								continue;
 							}
 						} else {
 							continue;
 						}
-						$theme_info = get_file_data( $dds_theme_dir . $theme, array( 'Name'     => 'Theme Name',
+						$theme_info = get_file_data( $dds_theme_dir . $stylesheet, array( 'Name'     => 'Theme Name',
 						                                                             'Template' => 'Template'
 							) );
-						$theme      = plugins_url( 'themes/' . $theme, __FILE__ );
 						?>
-						<option
-							value="<?php echo $theme ?>" <?php selected( $current_theme == $theme ); ?>><?php echo $theme_info['Name'] ?></option>
+						<option value="<?php echo $theme ?>" <?php selected( $current_theme == $theme ); ?>><?php echo $theme_info['Name'] ?></option>
 					<?php
 					endforeach;
-				endif;
-
-				?>
+				endif; ?>
 			</select>
 		</label>
 		<br>
 		<label for="dds_duration"><b>Duration:</b> <i>How long this slide should show on the screen.</i>
 			<select id="dds_duration" name="dds_duration">
-
 				<?php
 				$current_duration = get_post_meta( $id, 'dds_duration', true );
 				$n                = 0;
@@ -141,14 +133,15 @@ function dds_slide_metabox() {
 					$n += ( $n < 20 ? 1 : 5 );
 					?>
 
-					<option
-						value="<?php echo $n; ?>" <?php selected( $n == $current_duration ); ?>><?php echo $n . _n( ' Second', ' Seconds', $n ); ?> </option>
+					<option value="<?php echo $n; ?>" <?php selected( $n == $current_duration ); ?>>
+                        <?php echo $n . _n( ' Second', ' Seconds', $n ); ?>
+                    </option>
 				<?php endwhile; ?>
 			</select>
 		</label>
 		<br>
-		<label for="dds_external_url"><b>External URL:</b> <i>Load external web page instead of a post. Remember, this
-				page should be formatted for long distance viewing.</i>
+		<label for="dds_external_url"><b>External URL:</b>
+            <i>Load external web page instead of a post. Remember, this page should be formatted for long distance viewing.</i>
 			<?php
 			$current_external_url = get_post_meta( $id, 'dds_external_url', true );
 			?>
@@ -188,42 +181,47 @@ function dds_save_slide_options( $post_id ) {
 add_action( 'save_post', 'dds_save_slide_options' );
 
 /**
- * Gets the List of slides that the DDS Clients need to
+ * Gets the List of slides that the dds client with name $pie_name needs to show
  *
  * @param $actions The Current List of actions that has already been compiled by other plugins
  * @param $pie_post The post representing the PIE that is currently requesting commands
  * @param $pie_name The name of the PIE that is currently requesting commands
  *
- * @return array An array of Actions that the PIE should make
+ * @return array An array of Actions that $pie_name should make
  */
 function dds_slide_actions( $actions, $pie_post, $pie_name ) {
+    // Get the groups that the PIE is a member of
+	$groups_for_pie = wp_get_post_categories( $pie_post->ID );
 
-	$catids = wp_get_post_categories( $pie_post->ID );
+    // The Final List of Slides that It should Run
+	$queue = array();
 
-	$posts = array();
-
-	foreach ( $catids as $cur_category ) {
-		$slides = get_posts( array(
+	foreach ( $groups_for_pie as $pie_group ) {
+		// Get The Slides that are assigned to $pie_group
+        $slides = get_posts( array(
 			'posts_per_page'   => - 1,
-			'category'         => $cur_category,
+			'category'         => $pie_group,
 			'orderby'          => 'ID',
 			'order'            => 'DESC',
 			'post_type'        => 'slide',
 			'post_status'      => 'publish',
 			'suppress_filters' => false
 		) );
+
+        // List through the slides, If the slide hasn't already been enqueued then add it to $queue
 		foreach ( $slides as $slide ) {
-			if ( ! in_array( $slide, $posts ) ) {
-				$posts[] = $slide;
+			if ( ! in_array( $slide, $queue ) ) {
+				$queue[] = $slide;
 			}
 		}
 	}
 
-	foreach ( $posts as $p ) {
+    // Convert the list of WP_Post Objects into a List of DDS Actions
+	foreach ( $queue as $post ) {
 		$actions[] = array(
 			'type'     => 'slide',
-			'location' => get_slide_location( $pie_name, $p->ID ),
-			'duration' => (float) get_post_meta( $p->ID, 'dds_duration', true )
+			'location' => get_slide_location( $pie_name, $post->ID ),
+			'duration' => (float) get_post_meta( $post->ID, 'dds_duration', true )
 		);
 	}
 

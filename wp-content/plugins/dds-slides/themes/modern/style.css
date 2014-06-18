@@ -1,0 +1,183 @@
+/*
+Theme Name: Modern Theme
+*/
+.login-bg {
+    background:url(images/landscape.jpg) no-repeat center center fixed;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/bgs/landscape.jpg',sizingMethod='scale');
+    -ms-filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/bgs/landscape.jpg', sizingMethod='scale')";
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+    background-size:cover;
+}
+html, body {
+    height:100%;
+}
+.login-wrapper {
+    position:absolute;
+    top:20px;
+    width:99%;
+    bottom:20px;
+    height:100%;
+}
+
+.login-wrapper .logo {
+    margin-bottom:20px;
+    position:relative;
+
+}
+.login-wrapper .page {
+    height:80%;
+}
+.login-wrapper .main {
+    float:none;
+    width:100%;
+    box-shadow:0 0 6px 2px rgba(0,0,0,0.1);
+    border-radius:5px;
+    background:rgba(255,255,255,0.65);
+    padding:35px 0 30px;
+    height:100%;
+}
+
+.login-wrapper .main .content-wrap {
+    width:95%;
+    margin:0 auto;
+}
+
+.login-wrapper .main h6 {
+    text-transform:uppercase;
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 30px;
+    height:100%;
+}
+
+.login-wrapper .main input[type="text"],.login-wrapper .main input[type="password"] {
+    font-size:15px;
+    height:40px;
+    margin-bottom:18px;
+    padding-left:12px;
+    border-color:#b2bfc7;
+}
+
+.login-wrapper .box input[type="password"] {
+    margin-bottom:10px;
+}
+
+.login-wrapper .main input:-moz-placeholder {
+    color:#9ba8b6;
+    font-size:15px;
+    letter-spacing:0;
+    font-style:italic;
+}
+.login-wrapper hr {
+    border:1px solid #AFAFAF;
+}
+.login-wrapper .box a.forgot {
+    display:block;
+    text-align:right;
+    font-style:italic;
+    text-decoration:underline;
+    color:#3d88ba;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.login-wrapper .box .remember {
+    display:block;
+    overflow:hidden;
+    margin-bottom:20px;
+
+}
+
+.login-wrapper .box .remember input[type="checkbox"] {
+    float:left;
+    margin-right:8px;
+}
+
+.login-wrapper .box .remember label {
+    float:left;
+    color:#4a576a;
+    font-size:13px;
+}
+
+.login-wrapper .box .login {
+    text-transform:uppercase;
+    font-size:13px;
+    padding:8px 30px;
+}
+
+.login-wrapper .credits {
+    float:none;
+    font-size:14px;
+    margin:25px auto 0;
+    width:100%;
+    text-align:center;
+}
+
+.login-wrapper .credits p {
+    display:inline-block;
+    color:#aaa;
+}
+
+.login-wrapper .credits a {
+    color:#aaa;
+    margin-left:7px;
+    border-bottom:1px solid;
+    transition:all .1s linear;
+    -moz-transition:all .1s linear;
+    -webkit-transition:all .1s linear;
+    -o-transition:all .1s linear;
+}
+
+.login-wrapper .credits a:hover {
+    text-decoration:none;
+    color:#fff;
+    border-bottom-color:#fff;
+}
+
+.bg-switch {
+    position:absolute;
+    background:rgba(255,255,255,0.8);
+    top:60px;
+    border-radius:0 10px 10px 0;
+    z-index:999;
+    padding:10px 10px 0;
+}
+
+.bg-switch .bgs .bg {
+    text-align:center;
+    margin-bottom:13px;
+    text-decoration:none;
+    display:block;
+}
+
+.bg-switch .bgs .bg.active img {
+    border-color:#000;
+}
+
+.bg-switch .bgs .bg img {
+    width:80px;
+    height:60px;
+    border:2px solid #9fcef1;
+    cursor:pointer;
+}
+
+.login-wrapper .box input:-ms-input-placeholder,.login-wrapper .box input::-webkit-input-placeholder {
+    color:#9ba8b6;
+    font-style:italic;
+    letter-spacing:0;
+    font-size:15px;
+}
+
+@media max-width 767px {
+    .login-wrapper .box {
+        width:350px;
+    }
+}
+
+@media max-width 480px {
+    .login-wrapper .box {
+        width:90%;
+    }
+}

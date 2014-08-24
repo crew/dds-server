@@ -5,7 +5,7 @@ The DDS Server
 
 
 Installing a new DDS Server
-===========================
+---------------------------
 
 To install a new DDS Server follow the following steps
 
@@ -30,8 +30,12 @@ To install a new DDS Server follow the following steps
 7. Start Creating PIEs, then groups, then Slides!
 
 
-TODO:
-* SSL Config
-* Permissions
-* Standard LAMP Config Notes
+TODO
+----
 
+* HeartBeat - See #8
+* WP-API - A Must: See #7
+* UI Enhancements - Make WordPress Admin even better
+* Better Themes - The current theme (modern theme) kinda sucks :-(
+* Proxy - Proxy a remote URL request through dds-wp and run it through a WordPress filter to grind down any rough edges
+* Help with JS Web Application Stuffs... that will probably become a 3rd Repo in the project... so glad we sub-moded bakesale :-)

@@ -1,3 +1,13 @@
+<?php 
+
+$theme = get_post_meta(get_the_ID(), 'dds_theme', true);
+if (file_exists( WP_PLUGIN_DIR . '/dds-slides/themes/' . $theme . '/index.php' )) {
+	if (have_posts()) : 
+		the_post(); 
+	endif;
+	include(WP_PLUGIN_DIR . '/dds-slides/themes/' . $theme . '/index.php');
+} else {
+?>
 <html>
 <head>
     <title>CCIS Digital Display System</title>
@@ -13,9 +23,8 @@
         }
     </style>
     <?php
-        $theme = get_post_meta(get_the_ID(), 'dds_theme', true);
         if ($theme) { ?>
-            <link href="<?php echo esc_url($theme); ?>" rel="stylesheet" media="screen">
+            <link href="<?php echo plugins_url("dds-slides/themes/$theme/style.css"); ?>" rel="stylesheet" media="screen">
         <?php } ?>
 
 </head>
@@ -41,3 +50,6 @@
     </div><!-- #primary -->
 </body>
 </html>
+<?php 
+}
+

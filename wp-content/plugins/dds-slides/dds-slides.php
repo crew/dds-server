@@ -67,7 +67,7 @@ function dds_slide_editor() {
 		if ( $post->post_type == 'slide' ) {
 			$theme = get_post_meta( $id, 'dds_theme', true );
 			if ( $theme ) {
-				add_editor_style( $theme );
+				add_editor_style( plugins_url( "themes/$theme/style.css", __FILE__ ) );
 			}
 		}
 	}
@@ -97,7 +97,6 @@ function dds_slide_metabox() {
 		<label for="dds_theme"><b>Theme:</b> <i>This will set them theme for the slide if you are creating the slide
 				from scratch.</i>
 			<select id="dds_theme" name="dds_theme">
-				<option value="<?php echo plugins_url( 'themes/default/style.css', __FILE__ ); ?>"> Default Theme</option>
 				<?php
 				$current_theme = get_post_meta( $id, 'dds_theme', true );
 				$dds_theme_dir = __DIR__ . '/themes/';
@@ -109,17 +108,18 @@ function dds_slide_metabox() {
 							// Proccessing for a droppin css file
 						} else if ( is_dir( $dds_theme_dir . $theme ) && ! in_array( $theme, array( '.', '..' ) ) ) {
 
-							$theme = $theme . '/style.css';
-							if ( ! is_file( $dds_theme_dir . $theme ) ) {
+							$stylesheet = $theme . '/style.css';
+							if ( ! is_file( $dds_theme_dir . $stylesheet ) ) {
 								continue;
 							}
 						} else {
 							continue;
 						}
-						$theme_info = get_file_data( $dds_theme_dir . $theme, array( 'Name'     => 'Theme Name',
+						$theme_info = get_file_data( $dds_theme_dir . $stylesheet, array( 'Name'     => 'Theme Name',
 						                                                             'Template' => 'Template'
 							) );
-						$theme      = plugins_url( 'themes/' . $theme, __FILE__ );
+						
+						//$theme      = str_replace('https', 'http', plugins_url( 'themes/' . $theme, __FILE__ ));
 						?>
 						<option
 							value="<?php echo $theme ?>" <?php selected( $current_theme == $theme ); ?>><?php echo $theme_info['Name'] ?></option>

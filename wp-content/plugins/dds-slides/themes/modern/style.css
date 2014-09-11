@@ -1,0 +1,65 @@
+/*
+Theme Name: Modern Theme
+*/
+
+/* Hide everything that's not applicable */
+#wpadminbar,
+.builder-module-header-background-wrapper,
+.builder-module-navigation-background-wrapper,
+.builder-module-image-background-wrapper,
+.builder-module-sidebar-outer-wrapper,
+.builder-module-footer-background-wrapper,
+form, .ne-content-container .gform_wrapper,
+.edit-entry-link,
+.entry-meta-nav,
+embed, object, iframe,
+.sections > p:first-of-type {
+    display:none !important;
+}
+
+/* Resets */
+body {
+    background:#fff !important;
+}
+
+.builder-module-limit-width-wrapper {
+    width:auto !important;
+}
+
+.ne-container, .hentry, .builder-module-navigation, .builder-module-content .builder-module-sidebar .widget, .loop, .blog .loop .post, .single-post .loop .post, .page-template-template-home-page-php .ne-home-interests .router, .page-template-template-home-page-php #builder-module-509d4256440ac .widget {
+background:transparent;
+border-radius:0 !important;
+-webkit-box-shadow:none !important;
+-moz-box-shadow:none !important;
+box-shadow:none !important;
+border:0 !important;
+border-bottom: 0 !important;
+}
+
+.builder-module-content .hentry {
+    margin:0 !important;
+}
+
+/* Show the print-specific header and footer */
+#print-logo,
+#print-footer { display:block !important; }
+
+#print-logo {
+    padding:20px 0 0 20px;
+}
+
+#print-logo img,
+#print-footer img {
+    margin-bottom:0 !important;
+}
+
+#print-footer {
+    padding:0 0 20px 20px;
+    color:#787878;
+}
+
+body:not(.site1) #print-logo,
+body:not(.site1) #print-footer {
+    display:none !important;
+}
+

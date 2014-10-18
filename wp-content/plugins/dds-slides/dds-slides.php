@@ -160,6 +160,13 @@ function dds_slide_metabox() {
  * @param int $post_id The post ID of the slide
  */
 function dds_save_slide_options( $post_id ) {
+  
+  $queried_post = get_post($post_id);
+  $title = $queried_post->post_title;
+  echo $title;
+  echo $queried_post->post_content;
+  
+  
 	if ( get_post_type( $post_id ) != 'slide' ) {
 		return;
 	}

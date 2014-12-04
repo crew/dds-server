@@ -226,9 +226,11 @@ function dds_slide_actions( $actions, $pie_post, $pie_name ) {
     // Convert the list of WP_Post Objects into a List of DDS Actions
 	foreach ( $queue as $post ) {
 		$actions[] = array(
-			'type'     => 'slide',
+			'ID'       => $post->ID,
+            'type'     => 'slide',
 			'location' => get_slide_location( $pie_name, $post->ID ),
 			'duration' => (float) get_post_meta( $post->ID, 'dds_duration', true )
+
 		);
 	}
 
@@ -236,3 +238,34 @@ function dds_slide_actions( $actions, $pie_post, $pie_name ) {
 }
 
 add_filter( 'dds_pie_actions', 'dds_slide_actions', 10, 3 );
+
+
+function pies_for_slide($post){
+    $post = get_post($post);
+    $groups_for_slide = wp_get_post_categories($post->ID);
+    $output = array();
+
+
+    foreach ( $groups_for_slide as $pie_group ) {
+        // Get The Pies that are assigned to $pie_group
+        $pies = get_posts( array(
+            'posts_per_page'   => - 1,
+            'category'         => $pie_group,
+            'orderby'          => 'ID',
+            'order'            => 'DESC',
+            'post_type'        => 'PIE',
+            'post_status'      => 'publish',
+            'suppress_filters' => false
+        ) );
+
+        // List through the slides, If the slide hasn't already been enqueued then add it to $queue
+        foreach ( $pies as $pie ) {
+            if ( ! in_array( $pie, $output ) ) {
+                $output[] = $pie;
+            }
+        }
+    }
+
+
+    return $output;
+}

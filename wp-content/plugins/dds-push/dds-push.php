@@ -27,6 +27,7 @@ function dds_slide_delete($post_id){
 }
 
 add_action('before_delete_post', 'dds_slide_delete');
+add_action('slide-removed', 'dds_slide_delete');
 
 // Called when a slide is edited
 function dds_slide_edit($post_id){
@@ -42,7 +43,10 @@ function dds_add_update_switchboard($new_status, $old_status, $post_id){
     if (($old_status == 'publish') && ($old_status == $new_status)){
       do_action('slide-updated', $post_id->ID);
     }
-    else{
+    elseif($new_status == 'trash'){
+      do_action('slide-removed', $post_id->ID);
+    }
+    elseif($new_status == 'publish'){
       do_action('slide-published', $post_id->ID);
     }
 }

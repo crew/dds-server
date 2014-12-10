@@ -38,16 +38,19 @@ add_action('slide-updated', 'dds_slide_edit');
 // Handles routing for adding and updating slides
 //  (Needed or else Pies will always get an add-slide
 //   message when a slide is edited)
-function dds_add_update_switchboard($new_status, $old_status, $post_id){
-    if ($post_id->post_type != 'slide'){ return; }
-    if (($old_status == 'publish') && ($old_status == $new_status)){
-      do_action('slide-updated', $post_id->ID);
+function dds_add_update_switchboard($new_status, $old_status, $post){
+    $GLOBALS['dds_push_transistions'] = array();
+    
+    if ($post->post_type != 'slide'){ return; }
+    
+    if ($old_status == 'publish' && $new_status == 'publish'){
+      $GLOBALS['dds_push_transistions']['edit'][] = $post;
     }
     elseif($new_status == 'trash'){
-      do_action('slide-removed', $post_id->ID);
+      $GLOBALS['dds_push_transistions']['delete'][] = $post;	
     }
     elseif($new_status == 'publish'){
-      do_action('slide-published', $post_id->ID);
+      $GLOBALS['dds_push_transistions']['add'][] = $post;
     }
 }
 add_action('transition_post_status','dds_add_update_switchboard',10,3);

@@ -218,6 +218,8 @@ function dds_slide_actions( $actions, $pie_post, $pie_name ) {
         // List through the slides, If the slide hasn't already been enqueued then add it to $queue
 		foreach ( $slides as $slide ) {
 			if ( ! in_array( $slide, $queue ) ) {
+				$slide = (array) $slide;
+				$slide['meta'] = get_post_meta( $slide['ID'] );
 				$queue[] = $slide;
 			}
 		}
@@ -226,10 +228,10 @@ function dds_slide_actions( $actions, $pie_post, $pie_name ) {
     // Convert the list of WP_Post Objects into a List of DDS Actions
 	foreach ( $queue as $post ) {
 		$actions[] = array(
-			'ID'       => $post->ID,
-            'type'     => 'slide',
-			'location' => get_slide_location( $pie_name, $post->ID ),
-			'duration' => (float) get_post_meta( $post->ID, 'dds_duration', true )
+			'ID'       => $post['ID'],
+			'type'     => 'slide',
+			'location' => get_slide_location( $pie_name, $post['ID'] ),
+			'duration' => (float) get_post_meta( $post['ID'], 'dds_duration', true )
 
 		);
 	}

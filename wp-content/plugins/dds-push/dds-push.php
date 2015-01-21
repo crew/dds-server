@@ -32,11 +32,11 @@ add_action( 'slide-deleted', 'dds_slide_delete' );
  * Safeguards against forced permanent deletions of slides
  * @param int $post_id The ID of the Post
  */
-function dds_slide_herd_delete( $post_id ) {
+function dds_slide_hard_delete( $post_id ) {
     do_action( 'slide-deleted', get_post( $post_id ) );
 }
 
-add_action( 'before_delete_post', 'dds_slide_herd_delete' );
+add_action( 'before_delete_post', 'dds_slide_hard_delete' );
 
 /**
  * Called when a slide is edited
@@ -66,10 +66,6 @@ function dds_add_update_switchboard( $new_status, $old_status, $post ) {
     } elseif ( $new_status == 'publish' ) {
         $GLOBALS['dds_push_transitions']['added'][] = $post;
     }
-    error_log( 'Actions for: ' );
-    error_log( var_export( $post, true ) );
-    error_log( var_export( $GLOBALS['dds_push_transitions'], true ) );
-
 }
 
 add_action( 'transition_post_status', 'dds_add_update_switchboard', 10, 3 );
@@ -79,9 +75,6 @@ add_action( 'transition_post_status', 'dds_add_update_switchboard', 10, 3 );
  * @param WP $wp unused
  */
 function dds_do_pie_push( $wp ) {
-    error_log( 'doing push' );
-    error_log( 'did it? : ' . var_export( did_action( 'save_post' ), true ) );
-    error_log( var_export( $GLOBALS['dds_push_transitions'] ) );
     if ( isset( $GLOBALS['dds_push_transitions'] ) && ! empty( $GLOBALS['dds_push_transitions'] ) ) {
         foreach ( $GLOBALS['dds_push_transitions'] as $key => $posts ) {
             array_map( function ( $post ) use ( $key ) {
@@ -148,13 +141,6 @@ function dds_add_pies( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_
     push_message_default_content( $object_id, 'add-slide', $output );
 
 }
-
-// dds_remove_pies
-// Called when a slide's groups are changed.
-// If there are any groups no longer included,
-//   remove the slide from that group's pies. 
-//   Otherwise, do nothing.
-
 
 /**
  * Called when a slide's groups are changed. If there are any groups no longer included, remove the slide from that
